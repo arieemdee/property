@@ -6,21 +6,282 @@
     "type": "house",
     "contact": "62816678886",
     "media": [
-      { "type": "image", "src": "rumah1.jpg" },
-      { "type": "image", "src": "rumah2.jpg" },
-      { "type": "video", "src": "rumah1.mp4" }
+      { "type": "image", "src": "image1.jpeg" },
+      { "type": "image", "src": "image2.jpeg" },
+      { "type": "image", "src": "image3.jpeg" },
+      { "type": "image", "src": "image4.jpeg" },
+      { "type": "video", "src": "rmhpolo1.mp4" },
+      { "type": "video", "src": "rmhpolo2.mp4" }
     ]
   },
   {
-    "title": "Rumah Luas di Kemasan Polokarto",
+    "title": "Mobile Pajero",
     "price": 700000000,
     "location": "Kemasan, Polokarto",
     "type": "car",
     "contact": "62816678886",
     "media": [
-      { "type": "image", "src": "rumah1a.jpg" },
-      { "type": "image", "src": "rumah1b.jpg" },
-      { "type": "video", "src": "rumah1.mp4" }
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
+    ]
+  },
+  {
+    "title": "Mobile Pajero",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "pajero1.jpeg" },
+      { "type": "image", "src": "pajero2.jpeg" },
+      { "type": "image", "src": "pajero3.jpeg" },
+      { "type": "image", "src": "pajero4.jpeg" },
+      { "type": "image", "src": "pajero5.jpeg" },
+      { "type": "image", "src": "pajero6.jpeg" },
+      { "type": "image", "src": "pajero7.jpeg" },
+      { "type": "image", "src": "pajero8.jpeg" },
+      { "type": "image", "src": "pajero9.jpeg" }
     ]
   }
 ]

@@ -91,6 +91,39 @@
   </div>
 </div>
 
+<!-- 🔢 Pagination -->
+<% if (pagination && pagination.totalPages > 1) { %>
+  <nav>
+    <ul class="pagination justify-content-center mt-4">
+      <% if (pagination.currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= pagination.currentPage - 1 %>">« Prev</a>
+        </li>
+      <% } else { %>
+        <li class="page-item disabled"><span class="page-link">« Prev</span></li>
+      <% } %>
+
+      <% for (let p = 1; p <= pagination.totalPages; p++) { %>
+        <li class="page-item <%= p === pagination.currentPage ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= p %>"><%= p %></a>
+        </li>
+      <% } %>
+
+      <% if (pagination.currentPage < pagination.totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= pagination.currentPage + 1 %>">Next »</a>
+        </li>
+      <% } else { %>
+        <li class="page-item disabled"><span class="page-link">Next »</span></li>
+      <% } %>
+    </ul>
+    <p class="text-center text-muted small">
+      Halaman <%= pagination.currentPage %> dari <%= pagination.totalPages %>
+    </p>
+  </nav>
+<% } %>
+
+
 <!-- JS GLightbox -->
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script>
