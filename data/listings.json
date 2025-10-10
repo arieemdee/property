@@ -6,13 +6,38 @@
     "location": "Kemasan, Polokarto",
     "type": "house",
     "contact": "62816678886",
+    "description": "Rumah siap huni dengan luas tanah 500m², ada 3 kamar tidur, halaman luas, dan akses dekat jalan raya.",
     "media": [
-      { "type": "image", "src": "image1.jpeg" },
-      { "type": "image", "src": "image2.jpeg" },
-      { "type": "image", "src": "image3.jpeg" },
-      { "type": "image", "src": "image4.jpeg" },
-      { "type": "video", "src": "rmhpolo1.mp4" },
-      { "type": "video", "src": "rmhpolo2.mp4" }
+      {
+        "type": "image",
+        "src": "image1.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "image",
+        "src": "image2.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "image",
+        "src": "image3.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "image",
+        "src": "image4.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "video",
+        "src": "rmhpolo1.mp4",
+        "caption": "Video 1"
+      },
+      {
+        "type": "video",
+        "src": "rmhpolo2.mp4",
+        "caption": "Video 2"
+      }
     ]
   },
   {
@@ -22,16 +47,44 @@
     "location": "Kemasan, Polokarto",
     "type": "car",
     "contact": "62816678886",
+    "description": "Mobil anti pecah dan berkerut",
     "media": [
-      { "type": "image", "src": "pajero1.jpeg" },
-      { "type": "image", "src": "pajero2.jpeg" },
-      { "type": "image", "src": "pajero3.jpeg" },
-      { "type": "image", "src": "pajero4.jpeg" },
-      { "type": "image", "src": "pajero5.jpeg" },
-      { "type": "image", "src": "pajero6.jpeg" },
-      { "type": "image", "src": "pajero7.jpeg" },
-      { "type": "image", "src": "pajero8.jpeg" },
-      { "type": "image", "src": "pajero9.jpeg" }
+      {
+        "type": "image",
+        "src": "pajero1.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero2.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero3.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero4.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero5.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero6.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero7.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero8.jpeg"
+      },
+      {
+        "type": "image",
+        "src": "pajero9.jpeg"
+      }
     ]
   }
 ]

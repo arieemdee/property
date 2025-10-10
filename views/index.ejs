@@ -9,20 +9,20 @@
   <!-- 🔍 Filter -->
   <form class="row g-3 mb-4" method="get" action="/">
     <div class="col-md-4">
-      <input type="text" class="form-control" name="location" placeholder="Cari lokasi..." value="<%= filters.location || '' %>">
+      <input type="text" class="form-control" name="location" placeholder="Cari lokasi..." value="<%= filters?.location || '' %>">
     </div>
     <div class="col-md-3">
       <select name="type" class="form-select">
         <option value="">Semua Tipe</option>
-        <option value="house" <%= filters.type === 'house' ? 'selected' : '' %>>Rumah</option>
-        <option value="car" <%= filters.type === 'car' ? 'selected' : '' %>>Mobil</option>
+        <option value="house" <%= filters?.type === 'house' ? 'selected' : '' %>>Rumah</option>
+        <option value="car" <%= filters?.type === 'car' ? 'selected' : '' %>>Mobil</option>
       </select>
     </div>
     <div class="col-md-3">
       <select name="sort" class="form-select">
         <option value="">Urutkan</option>
-        <option value="price_asc" <%= filters.sort === 'price_asc' ? 'selected' : '' %>>Harga Terendah</option>
-        <option value="price_desc" <%= filters.sort === 'price_desc' ? 'selected' : '' %>>Harga Tertinggi</option>
+        <option value="price_asc" <%= filters?.sort === 'price_asc' ? 'selected' : '' %>>Harga Terendah</option>
+        <option value="price_desc" <%= filters?.sort === 'price_desc' ? 'selected' : '' %>>Harga Tertinggi</option>
       </select>
     </div>
     <div class="col-md-2">
@@ -32,7 +32,7 @@
 
   <!-- 🏡 Daftar Properti -->
   <div class="row">
-    <% if (listings.length === 0) { %>
+    <% if (!listings || listings.length === 0) { %>
       <div class="col-12 text-center text-muted">
         <p>Tidak ada properti yang cocok dengan filter.</p>
       </div>
@@ -46,22 +46,30 @@
           <div id="carousel-<%= i %>" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <% item.media.forEach((m, j) => { %>
-                <div class="carousel-item <%= j === 0 ? 'active' : '' %>">
-                  <% if (m.type === 'image') { %>
-                    <a href="/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>">
-                      <img src="/uploads/<%= m.src %>" class="d-block w-100" alt="Foto <%= item.title %>">
+                <div class="carousel-item <%= j === 0 ? 'active' : '' %> text-center">
+
+                  <% if (m.type === 'video') { %>
+                    <video class="d-block w-100 rounded" controls muted>
+                      <source src="/uploads/<%= m.src %>" type="video/mp4">
+                      Browser Anda tidak mendukung video tag.
+                    </video>
+                  <% } else { %>
+                    <a href="/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>" data-title="<%= m.caption || item.title %>">
+                      <img src="/uploads/<%= m.src %>" class="d-block w-100 rounded" alt="<%= item.title %>">
                     </a>
-                  <% } else if (m.type === 'video') { %>
-                    <a href="/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>" data-type="video">
-                      <video class="d-block w-100" muted preload="metadata">
-                        <source src="/uploads/<%= m.src %>" type="video/mp4">
-                      </video>
-                    </a>
+                  <% } %>
+
+                  <!-- 📄 Caption Gambar -->
+                  <% if (m.caption) { %>
+                    <div class="text-center mt-2 mb-3 px-2">
+                      <small class="d-block text-muted fst-italic"><%= m.caption %></small>
+                    </div>
                   <% } %>
                 </div>
               <% }) %>
             </div>
 
+            <!-- Navigasi carousel -->
             <% if (item.media.length > 1) { %>
               <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<%= i %>" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -79,6 +87,12 @@
             <h5 class="card-title"><%= item.title %></h5>
             <p class="card-text mb-1"><strong>Harga:</strong> Rp <%= Number(item.price).toLocaleString('id-ID') %></p>
             <p class="card-text mb-1"><strong>Lokasi:</strong> <%= item.location %></p>
+
+            <!-- Deskripsi Properti -->
+            <% if (item.description) { %>
+              <p class="card-text text-muted"><%= item.description %></p>
+            <% } %>
+
             <p class="card-text"><strong>Kontak:</strong> 
               <a href="https://wa.me/<%= item.contact %>" target="_blank" class="text-success">
                 <i class="bi bi-whatsapp"></i> <%= item.contact %>
@@ -123,20 +137,16 @@
   </nav>
 <% } %>
 
-
 <!-- JS GLightbox -->
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     GLightbox({
+      selector: '.glightbox',
       touchNavigation: true,
       loop: true,
       zoomable: true,
       draggable: true,
-      plyr: {
-        css: 'https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css',
-        js: 'https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.min.js',
-      },
     });
   });
 </script>

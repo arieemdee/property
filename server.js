@@ -1,124 +1,185 @@
-require('dotenv').config();
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const multer = require('multer');
-const bodyParser = require('body-parser');
+require("dotenv").config(); // 🧩 Load variabel dari .env
+
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const multer = require("multer");
+const session = require("express-session");
+
 const app = express();
 
-const PORT = process.env.PORT || 3400;
+// 📦 Variabel dari .env (pakai nilai default jika belum di-set)
+const PORT = process.env.PORT || 3000;
+const SESSION_SECRET = process.env.SESSION_SECRET || "rahasia-super-admin";
 
-// Konfigurasi folder upload
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+// 📁 Lokasi file JSON
+const DATA_FILE = path.join(__dirname, "data", "listings.json");
 
-// Konfigurasi multer
+// 🧩 Setup middleware
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// 🔗 Static file serving
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
+
+// 🧠 Session untuk login admin
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// 📸 Konfigurasi upload media
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + '-' + file.originalname);
-  }
+  destination: (req, file, cb) =>
+    cb(null, path.join(__dirname, "public", "uploads")),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + path.extname(file.originalname)),
 });
 const upload = multer({ storage });
 
-// Middleware
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(uploadDir));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-
-// 🔹 Helper function: read & write JSON
-function readListings() {
-  const file = path.join(__dirname, 'data', 'listings.json');
-  if (!fs.existsSync(file)) return [];
-  return JSON.parse(fs.readFileSync(file, 'utf8'));
-}
-function saveListings(listings) {
-  fs.writeFileSync(path.join(__dirname, 'data', 'listings.json'), JSON.stringify(listings, null, 2));
+// 📖 Fungsi bantu
+function readData() {
+  if (!fs.existsSync(DATA_FILE)) return [];
+  return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
 }
 
-// =============================
-// 🏡 1️⃣ Halaman utama (lihat properti)
-// =============================
-app.get('/', (req, res) => {
-  const listings = readListings();
+function writeData(data) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
 
-  const { location, type, sort } = req.query;
-  let page = parseInt(req.query.page) || 1;
+// ===================
+// 🔐 LOGIN ADMIN
+// ===================
+app.get("/login", (req, res) => res.render("login", { error: null }));
 
-  // Filter & Sort
-  let filtered = listings;
-  if (location) filtered = filtered.filter(x => x.location.toLowerCase().includes(location.toLowerCase()));
-  if (type) filtered = filtered.filter(x => x.type === type);
-  if (sort === 'price_asc') filtered.sort((a, b) => a.price - b.price);
-  if (sort === 'price_desc') filtered.sort((a, b) => b.price - a.price);
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  if (
+    username === process.env.ADMIN_USER &&
+    password === process.env.ADMIN_PASS
+  ) {
+    req.session.isAdmin = true;
+    res.redirect("/admin");
+  } else {
+    res.render("login", { error: "Username atau password salah" });
+  }
+});
 
-  // Pagination
-  const pageSize = 6;
-  const totalItems = filtered.length;
-  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
-  if (page > totalPages) page = totalPages;
+app.get("/logout", (req, res) => req.session.destroy(() => res.redirect("/")));
 
-  const start = (page - 1) * pageSize;
-  const paginated = filtered.slice(start, start + pageSize);
+// 🔒 Middleware proteksi admin
+function requireLogin(req, res, next) {
+  if (!req.session.isAdmin) return res.redirect("/login");
+  next();
+}
 
-  res.render('index', {
-    listings: paginated,
-    filters: { location, type, sort },
-    pagination: { totalPages, totalItems, currentPage: page },
+// ===================
+// 🏠 HALAMAN UTAMA
+// ===================
+app.get("/", (req, res) => {
+  const listings = readData();
+
+  const perPage = 6;
+  const currentPage = parseInt(req.query.page) || 1;
+  const start = (currentPage - 1) * perPage;
+  const paginatedData = listings.slice(start, start + perPage);
+
+  const pagination = {
+    currentPage,
+    totalPages: Math.ceil(listings.length / perPage),
+  };
+
+  res.render("index", {
+    listings: paginatedData,
+    pagination,
+    filters: req.query || {},
   });
 });
 
-// =============================
-// ⚙️ 2️⃣ Admin Panel (CRUD UI)
-// =============================
-app.get('/admin', (req, res) => {
-  const listings = readListings();
-  res.render('admin', { listings });
+// ===================
+// 🧰 ADMIN PANEL
+// ===================
+app.get("/admin", requireLogin, (req, res) => {
+  const listings = readData();
+  res.render("admin", { listings });
 });
 
-// =============================
-// ➕ 3️⃣ Tambah Properti
-// =============================
-app.post('/admin/add', upload.array('media', 10), (req, res) => {
-  const listings = readListings();
+app.get("/admin/new", requireLogin, (req, res) =>
+  res.render("admin-form", { item: null })
+);
 
-  const { title, price, location, contact, type } = req.body;
-  const media = req.files.map(file => ({
-    type: file.mimetype.startsWith('video') ? 'video' : 'image',
-    src: path.basename(file.path)
-  }));
-
-  const newListing = {
-    id: Date.now(),
-    title,
-    price: Number(price),
-    location,
-    contact,
-    type,
-    media
-  };
-
-  listings.push(newListing);
-  saveListings(listings);
-
-  res.redirect('/admin');
+app.get("/admin/edit/:id", requireLogin, (req, res) => {
+  const listings = readData();
+  const item = listings.find((x) => x.id == req.params.id);
+  res.render("admin-form", { item });
 });
 
-// =============================
-// ❌ 4️⃣ Hapus Properti
-// =============================
-app.post('/admin/delete/:id', (req, res) => {
-  let listings = readListings();
-  const id = parseInt(req.params.id);
-  listings = listings.filter(l => l.id !== id);
-  saveListings(listings);
-  res.redirect('/admin');
+// 💾 Tambah/edit properti
+app.post("/admin/save", requireLogin, upload.array("media"), (req, res) => {
+  const listings = readData();
+  const { id, title, price, location, type, contact, description, captions } =
+    req.body;
+
+  const captionArray = captions ? captions.split("\n").map((c) => c.trim()) : [];
+
+  let media = [];
+  if (req.files?.length) {
+    media = req.files.map((file, i) => ({
+      type: file.mimetype.startsWith("video") ? "video" : "image",
+      src: file.filename,
+      caption: captionArray[i] || "",
+    }));
+  }
+
+  if (id) {
+    // Update data lama
+    const idx = listings.findIndex((x) => x.id == id);
+    if (idx !== -1) {
+      listings[idx] = {
+        ...listings[idx],
+        title,
+        price: Number(price),
+        location,
+        type,
+        contact,
+        description,
+        media: media.length ? media : listings[idx].media,
+      };
+    }
+  } else {
+    // Tambah baru
+    listings.push({
+      id: Date.now(),
+      title,
+      price: Number(price),
+      location,
+      type,
+      contact,
+      description,
+      media,
+    });
+  }
+
+  writeData(listings);
+  res.redirect("/admin");
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
+// ❌ Hapus properti
+app.post("/admin/delete/:id", requireLogin, (req, res) => {
+  let listings = readData();
+  listings = listings.filter((x) => x.id != req.params.id);
+  writeData(listings);
+  res.redirect("/admin");
 });
+
+// ===================
+// 🚀 Jalankan server
+// ===================
+app.listen(PORT, () =>
+  console.log(`Server running on http://localhost:${PORT}`)
+);
