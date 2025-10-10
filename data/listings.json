@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Rumah Luas di Kemasan Polokarto",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "house",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "rumah1.jpg" },
+      { "type": "image", "src": "rumah2.jpg" },
+      { "type": "video", "src": "rumah1.mp4" }
+    ]
+  },
+  {
+    "title": "Rumah Luas di Kemasan Polokarto",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886",
+    "media": [
+      { "type": "image", "src": "rumah1a.jpg" },
+      { "type": "image", "src": "rumah1b.jpg" },
+      { "type": "video", "src": "rumah1.mp4" }
+    ]
+  }
+]

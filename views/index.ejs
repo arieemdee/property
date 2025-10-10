@@ -1,0 +1,111 @@
+<%- include('partials/header') %>
+
+<!-- CSS GLightbox -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+<div class="container my-5">
+  <h1 class="text-center mb-4">Daftar Properti</h1>
+
+  <!-- 🔍 Filter -->
+  <form class="row g-3 mb-4" method="get" action="/">
+    <div class="col-md-4">
+      <input type="text" class="form-control" name="location" placeholder="Cari lokasi..." value="<%= filters.location || '' %>">
+    </div>
+    <div class="col-md-3">
+      <select name="type" class="form-select">
+        <option value="">Semua Tipe</option>
+        <option value="house" <%= filters.type === 'house' ? 'selected' : '' %>>Rumah</option>
+        <option value="car" <%= filters.type === 'car' ? 'selected' : '' %>>Mobil</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select name="sort" class="form-select">
+        <option value="">Urutkan</option>
+        <option value="price_asc" <%= filters.sort === 'price_asc' ? 'selected' : '' %>>Harga Terendah</option>
+        <option value="price_desc" <%= filters.sort === 'price_desc' ? 'selected' : '' %>>Harga Tertinggi</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" type="submit">Filter</button>
+    </div>
+  </form>
+
+  <!-- 🏡 Daftar Properti -->
+  <div class="row">
+    <% if (listings.length === 0) { %>
+      <div class="col-12 text-center text-muted">
+        <p>Tidak ada properti yang cocok dengan filter.</p>
+      </div>
+    <% } %>
+
+    <% listings.forEach((item, i) => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm rounded-3 overflow-hidden">
+
+          <!-- Carousel Gambar + Video -->
+          <div id="carousel-<%= i %>" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <% item.media.forEach((m, j) => { %>
+                <div class="carousel-item <%= j === 0 ? 'active' : '' %>">
+                  <% if (m.type === 'image') { %>
+                    <a href="/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>">
+                      <img src="/uploads/<%= m.src %>" class="d-block w-100" alt="Foto <%= item.title %>">
+                    </a>
+                  <% } else if (m.type === 'video') { %>
+                    <a href="/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>" data-type="video">
+                      <video class="d-block w-100" muted preload="metadata">
+                        <source src="/uploads/<%= m.src %>" type="video/mp4">
+                      </video>
+                    </a>
+                  <% } %>
+                </div>
+              <% }) %>
+            </div>
+
+            <% if (item.media.length > 1) { %>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<%= i %>" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel-<%= i %>" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            <% } %>
+          </div>
+
+          <!-- Info Properti -->
+          <div class="card-body">
+            <h5 class="card-title"><%= item.title %></h5>
+            <p class="card-text mb-1"><strong>Harga:</strong> Rp <%= Number(item.price).toLocaleString('id-ID') %></p>
+            <p class="card-text mb-1"><strong>Lokasi:</strong> <%= item.location %></p>
+            <p class="card-text"><strong>Kontak:</strong> 
+              <a href="https://wa.me/<%= item.contact %>" target="_blank" class="text-success">
+                <i class="bi bi-whatsapp"></i> <%= item.contact %>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<!-- JS GLightbox -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    GLightbox({
+      touchNavigation: true,
+      loop: true,
+      zoomable: true,
+      draggable: true,
+      plyr: {
+        css: 'https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.css',
+        js: 'https://cdn.jsdelivr.net/npm/plyr@3/dist/plyr.min.js',
+      },
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>
