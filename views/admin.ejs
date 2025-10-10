@@ -96,6 +96,7 @@
             </td>
             <td><small><%= item.description || '-' %></small></td>
             <td class="text-center">
+              <a href="/admin/edit/<%= item.id %>" class="btn btn-sm btn-warning me-1">Edit</a>
               <form action="/admin/delete/<%= item.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                 <button class="btn btn-sm btn-danger px-3">Hapus</button>
               </form>
