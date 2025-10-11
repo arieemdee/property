@@ -1,0 +1,73 @@
+<%- include('partials/header') %>
+
+<div class="container my-5">
+  <h1 class="text-center mb-4"><%= item ? 'Edit Properti' : 'Tambah Properti Baru' %></h1>
+
+  <form action="/admin/save" method="POST" enctype="multipart/form-data" class="border p-4 rounded bg-light">
+    <% if (item) { %>
+      <input type="hidden" name="id" value="<%= item.id %>">
+    <% } %>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label>Judul</label>
+        <input type="text" name="title" class="form-control" value="<%= item ? item.title : '' %>" required>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label>Harga</label>
+        <input type="number" name="price" class="form-control" value="<%= item ? item.price : '' %>" required>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label>Tipe</label>
+        <select name="type" class="form-select">
+          <option value="house" <%= item && item.type === 'house' ? 'selected' : '' %>>Rumah</option>
+          <option value="car" <%= item && item.type === 'car' ? 'selected' : '' %>>Mobil</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label>Lokasi</label>
+        <input type="text" name="location" class="form-control" value="<%= item ? item.location : '' %>" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label>Kontak (WA)</label>
+        <input type="text" name="contact" class="form-control" value="<%= item ? item.contact : '' %>" required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Deskripsi</label>
+      <textarea name="description" class="form-control" rows="4" required><%= item ? item.description : '' %></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Upload Gambar/Video (boleh kosong jika tidak ingin ganti)</label>
+      <input type="file" name="media" class="form-control" accept="image/*,video/*" multiple>
+      <% if (item && item.media.length > 0) { %>
+        <div class="mt-2 d-flex flex-wrap gap-2">
+          <% item.media.forEach(m => { %>
+            <% if (m.type === 'image') { %>
+              <img src="/uploads/<%= m.src %>" alt="" width="80" height="80" class="rounded border">
+            <% } else { %>
+              <video src="/uploads/<%= m.src %>" width="80" height="80" controls muted></video>
+            <% } %>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="mb-3">
+      <label>Caption (satu baris per file, urutan sesuai upload)</label>
+      <textarea name="captions" class="form-control" rows="3"><%= item ? item.media.map(m => m.caption || '').join('\n') : '' %></textarea>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <a href="/admin" class="btn btn-secondary">Kembali</a>
+      <button type="submit" class="btn btn-primary"><%= item ? 'Simpan Perubahan' : 'Tambah Properti' %></button>
+    </div>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

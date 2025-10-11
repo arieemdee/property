@@ -1,0 +1,154 @@
+<%- include('partials/header') %>
+
+<!-- CSS GLightbox -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
+<div class="container my-5">
+  <h1 class="text-center mb-4">NANO Properti</h1>
+
+  <!-- 🔍 Filter -->
+  <form class="row g-3 mb-4" method="get" action="/">
+    <div class="col-md-4">
+      <input type="text" class="form-control" name="location" placeholder="Cari lokasi..." value="<%= filters?.location || '' %>">
+    </div>
+    <div class="col-md-3">
+      <select name="type" class="form-select">
+        <option value="">Semua Tipe</option>
+        <option value="house" <%= filters?.type === 'house' ? 'selected' : '' %>>Rumah</option>
+        <option value="car" <%= filters?.type === 'car' ? 'selected' : '' %>>Mobil</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select name="sort" class="form-select">
+        <option value="">Urutkan</option>
+        <option value="price_asc" <%= filters?.sort === 'price_asc' ? 'selected' : '' %>>Harga Terendah</option>
+        <option value="price_desc" <%= filters?.sort === 'price_desc' ? 'selected' : '' %>>Harga Tertinggi</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" type="submit">Filter</button>
+    </div>
+  </form>
+
+  <!-- 🏡 Daftar Properti -->
+  <div class="row">
+    <% if (!listings || listings.length === 0) { %>
+      <div class="col-12 text-center text-muted">
+        <p>Tidak ada properti yang cocok dengan filter.</p>
+      </div>
+    <% } %>
+
+    <% listings.forEach((item, i) => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm rounded-3 overflow-hidden">
+
+          <!-- Carousel Gambar + Video -->
+          <div id="carousel-<%= i %>" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <% item.media.forEach((m, j) => { %>
+                <div class="carousel-item <%= j === 0 ? 'active' : '' %> text-center">
+
+                  <% if (m.type === 'video') { %>
+                    <video class="d-block w-100 rounded" controls muted>
+                      <source src="/nano/uploads/<%= m.src %>" type="video/mp4">
+                      Browser Anda tidak mendukung video tag.
+                    </video>
+                  <% } else { %>
+                    <a href="/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>" data-title="<%= m.caption || item.title %>">
+                      <img src="/nano/uploads/<%= m.src %>" class="d-block w-100 rounded" alt="<%= item.title %>">
+                    </a>
+                  <% } %>
+
+                  <!-- 📄 Caption Gambar -->
+                  <% if (m.caption) { %>
+                    <div class="text-center mt-2 mb-3 px-2">
+                      <small class="d-block text-muted fst-italic"><%= m.caption %></small>
+                    </div>
+                  <% } %>
+                </div>
+              <% }) %>
+            </div>
+
+            <!-- Navigasi carousel -->
+            <% if (item.media.length > 1) { %>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<%= i %>" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel-<%= i %>" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            <% } %>
+          </div>
+
+          <!-- Info Properti -->
+          <div class="card-body">
+            <h5 class="card-title"><%= item.title %></h5>
+            <p class="card-text mb-1"><strong>Harga:</strong> Rp <%= Number(item.price).toLocaleString('id-ID') %></p>
+            <p class="card-text mb-1"><strong>Lokasi:</strong> <%= item.location %></p>
+
+            <!-- Deskripsi Properti -->
+            <% if (item.description) { %>
+              <p class="card-text text-muted"><%= item.description %></p>
+            <% } %>
+
+            <p class="card-text"><strong>Kontak:</strong> 
+              <a href="https://wa.me/<%= item.contact %>" target="_blank" class="text-success">
+                <i class="bi bi-whatsapp"></i> <%= item.contact %>
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<!-- 🔢 Pagination -->
+<% if (pagination && pagination.totalPages > 1) { %>
+  <nav>
+    <ul class="pagination justify-content-center mt-4">
+      <% if (pagination.currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= pagination.currentPage - 1 %>">« Prev</a>
+        </li>
+      <% } else { %>
+        <li class="page-item disabled"><span class="page-link">« Prev</span></li>
+      <% } %>
+
+      <% for (let p = 1; p <= pagination.totalPages; p++) { %>
+        <li class="page-item <%= p === pagination.currentPage ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= p %>"><%= p %></a>
+        </li>
+      <% } %>
+
+      <% if (pagination.currentPage < pagination.totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= pagination.currentPage + 1 %>">Next »</a>
+        </li>
+      <% } else { %>
+        <li class="page-item disabled"><span class="page-link">Next »</span></li>
+      <% } %>
+    </ul>
+    <p class="text-center text-muted small">
+      Halaman <%= pagination.currentPage %> dari <%= pagination.totalPages %>
+    </p>
+  </nav>
+<% } %>
+
+<!-- JS GLightbox -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    GLightbox({
+      selector: '.glightbox',
+      touchNavigation: true,
+      loop: true,
+      zoomable: true,
+      draggable: true,
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

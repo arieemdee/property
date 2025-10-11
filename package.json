@@ -1,0 +1,17 @@
+{
+  "name": "property-site",
+  "version": "1.0.0",
+  "description": "Website properti dan mobil sederhana berbasis Node.js + EJS (tested structure)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.6.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}

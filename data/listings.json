@@ -1,0 +1,99 @@
+[
+  {
+    "id": 1728534549395,
+    "title": "Rumah Luas di Kemasan Polokarto",
+    "price": 700000000,
+    "location": "Kemasan, Polokarto",
+    "type": "house",
+    "contact": "62816678886 (Arie)",
+    "description": "Rumah siap huni dengan luas tanah 500m², ada 3 kamar tidur, halaman luas, dan akses dekat jalan raya.",
+    "media": [
+      {
+        "type": "image",
+        "src": "image1.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "image",
+        "src": "image2.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "image",
+        "src": "image3.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "image",
+        "src": "image4.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "video",
+        "src": "rmhpolo1.mp4",
+        "caption": "Video 1"
+      },
+      {
+        "type": "video",
+        "src": "rmhpolo2.mp4",
+        "caption": "Video 2"
+      }
+    ]
+  },
+  {
+    "id": 1728534549396,
+    "title": "Mobile Pajero",
+    "price": 350000000,
+    "location": "Kemasan, Polokarto",
+    "type": "car",
+    "contact": "62816678886 (Arie)",
+    "description": "Mobile keluarga pajero (Panas jobo jero)",
+    "media": [
+      {
+        "type": "image",
+        "src": "pajero1.jpeg",
+        "caption": "Tampak Belakang"
+      },
+      {
+        "type": "image",
+        "src": "pajero2.jpeg",
+        "caption": "Tampak Depan"
+      },
+      {
+        "type": "image",
+        "src": "pajero3.jpeg",
+        "caption": "AD SOLO"
+      },
+      {
+        "type": "image",
+        "src": "pajero4.jpeg",
+        "caption": "Mulus Terawat"
+      },
+      {
+        "type": "image",
+        "src": "pajero5.jpeg",
+        "caption": "Tampak Interior dalam bersih"
+      },
+      {
+        "type": "image",
+        "src": "pajero6.jpeg",
+        "caption": "Tampak Lega kabin"
+      },
+      {
+        "type": "image",
+        "src": "pajero7.jpeg",
+        "caption": "-"
+      },
+      {
+        "type": "image",
+        "src": "pajero8.jpeg",
+        "caption": "Elegan"
+      },
+      {
+        "type": "image",
+        "src": "pajero9.jpeg",
+        "caption": "Bagasi Luas"
+      }
+    ]
+  }
+]
