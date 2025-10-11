@@ -12,6 +12,7 @@ const router = express.Router();
 // 📦 Variabel dari .env (pakai nilai default jika belum di-set)
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || "rahasia-super-admin";
+const PATH_PROXY = process.env.PATH_PROXY || "nano"
 
 // 📁 Lokasi file JSON
 const DATA_FILE = path.join(__dirname, "data", "listings.json");
@@ -22,13 +23,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Mount router di /nano
-app.use("/nano", router);
+app.use(`/${PATH_PROXY}`, router);
 
 // 🔗 Static file serving
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/nano/uploads", express.static(path.join(__dirname, "public", "uploads")));
-app.use("/nano/css", express.static(path.join(__dirname, "public", "css")));
-app.use("/nano/js", express.static(path.join(__dirname, "public", "js")));
+app.use(`/${PATH_PROXY}/uploads`, express.static(path.join(__dirname, "public", "uploads")));
+app.use(`/${PATH_PROXY}/css`, express.static(path.join(__dirname, "public", "css")));
+app.use(`/${PATH_PROXY}/js`, express.static(path.join(__dirname, "public", "js")));
 
 // 🧠 Session untuk login admin
 app.use(
@@ -70,7 +71,7 @@ app.post("/login", (req, res) => {
     password === process.env.ADMIN_PASS
   ) {
     req.session.isAdmin = true;
-    res.redirect("/admin");
+    res.redirect(`/${PATH_PROXY}/admin`);
   } else {
     res.render("login", { error: "Username atau password salah" });
   }
@@ -80,7 +81,7 @@ app.get("/logout", (req, res) => req.session.destroy(() => res.redirect("/")));
 
 // 🔒 Middleware proteksi admin
 function requireLogin(req, res, next) {
-  if (!req.session.isAdmin) return res.redirect("/login");
+  if (!req.session.isAdmin) return res.redirect(`/${PATH_PROXY}/admin`);
   next();
 }
 
@@ -88,41 +89,64 @@ function requireLogin(req, res, next) {
 // 🏠 HALAMAN UTAMA
 // ===================
 app.get("/", (req, res) => {
-  const listings = readData();
+  let { location = "", type = "", sort = "", page = 1 } = req.query;
+  let listings = readData(); // harus let, karena akan difilter
 
+  // 🔹 Filter lokasi
+  if (location.trim() !== "") {
+    listings = listings.filter(item =>
+      item.location.toLowerCase().includes(location.toLowerCase())
+    );
+  }
+
+  // 🔹 Filter tipe
+  if (type.trim() !== "") {
+    listings = listings.filter(item => item.type === type);
+  }
+
+  // 🔹 Sort harga
+  if (sort === "price_asc") {
+    listings.sort((a, b) => a.price - b.price);
+  } else if (sort === "price_desc") {
+    listings.sort((a, b) => b.price - a.price);
+  }
+
+  // 🔹 Pagination
+  page = parseInt(page) || 1;
   const perPage = 6;
-  const currentPage = parseInt(req.query.page) || 1;
-  const start = (currentPage - 1) * perPage;
+  const start = (page - 1) * perPage;
   const paginatedData = listings.slice(start, start + perPage);
 
   const pagination = {
-    currentPage,
+    currentPage: page,
     totalPages: Math.ceil(listings.length / perPage),
   };
 
   res.render("index", {
     listings: paginatedData,
     pagination,
-    filters: req.query || {},
+    filters: { location, type, sort },
+    PATH_PROXY
   });
 });
+
 
 // ===================
 // 🧰 ADMIN PANEL
 // ===================
 app.get("/admin", requireLogin, (req, res) => {
   const listings = readData();
-  res.render("admin", { listings });
+  res.render("admin", { listings, PATH_PROXY });
 });
 
 app.get("/admin/new", requireLogin, (req, res) =>
-  res.render("admin-form", { item: null })
+  res.render("admin-form", { item: null, PATH_PROXY })
 );
 
 app.get("/admin/edit/:id", requireLogin, (req, res) => {
   const listings = readData();
-  const item = listings.find((x) => x.id == req.params.id);
-  res.render("admin-form", { item });
+  const item = listings.find(x => x.id == req.params.id);
+  res.render("admin-form", { item, PATH_PROXY });
 });
 
 // 💾 Tambah/edit properti
@@ -172,15 +196,15 @@ app.post("/admin/save", requireLogin, upload.array("media"), (req, res) => {
   }
 
   writeData(listings);
-  res.redirect("/admin");
+  res.redirect(`/${PATH_PROXY}/admin`);
 });
 
 // ❌ Hapus properti
 app.post("/admin/delete/:id", requireLogin, (req, res) => {
   let listings = readData();
-  listings = listings.filter((x) => x.id != req.params.id);
+  listings = listings.filter(x => x.id != req.params.id);
   writeData(listings);
-  res.redirect("/admin");
+  res.redirect(`/${PATH_PROXY}/admin`);
 });
 
 // ===================

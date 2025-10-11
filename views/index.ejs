@@ -7,7 +7,7 @@
   <h1 class="text-center mb-4">NANO Properti</h1>
 
   <!-- 🔍 Filter -->
-  <form class="row g-3 mb-4" method="get" action="/">
+  <form class="row g-3 mb-4" method="get" action="/<%= PATH_PROXY %>">
     <div class="col-md-4">
       <input type="text" class="form-control" name="location" placeholder="Cari lokasi..." value="<%= filters?.location || '' %>">
     </div>
@@ -50,12 +50,12 @@
 
                   <% if (m.type === 'video') { %>
                     <video class="d-block w-100 rounded" controls muted>
-                      <source src="/nano/uploads/<%= m.src %>" type="video/mp4">
+                      <source src="<%= PATH_PROXY %>/uploads/<%= m.src %>" type="video/mp4">
                       Browser Anda tidak mendukung video tag.
                     </video>
                   <% } else { %>
-                    <a href="/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>" data-title="<%= m.caption || item.title %>">
-                      <img src="/nano/uploads/<%= m.src %>" class="d-block w-100 rounded" alt="<%= item.title %>">
+                    <a href="<%= PATH_PROXY %>/uploads/<%= m.src %>" class="glightbox" data-gallery="gallery-<%= i %>" data-title="<%= m.caption || item.title %>">
+                      <img src="<%= PATH_PROXY %>/uploads/<%= m.src %>" class="d-block w-100 rounded" alt="<%= item.title %>">
                     </a>
                   <% } %>
 

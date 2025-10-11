@@ -8,9 +8,9 @@
 <body>
   <% include partials/navbar.ejs %>
   <div class="container">
-    <a href="/" class="btn btn-secondary mb-3">← Kembali</a>
+    <a href="<%= PATH_PROXY %>/" class="btn btn-secondary mb-3">← Kembali</a>
     <div class="card mb-4">
-      <img src="/<%= item.image %>" class="card-img-top" style="height:400px;object-fit:cover">
+      <img src="<%= PATH_PROXY %>/<%= item.image %>" class="card-img-top" style="height:400px;object-fit:cover">
       <div class="card-body">
         <h3><%= item.title %></h3>
         <p class="text-muted">Rp <%= item.price %></p>

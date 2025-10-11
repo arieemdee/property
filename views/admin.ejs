@@ -3,11 +3,11 @@
 <div class="container my-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="mb-0">Admin Properti</h1>
-    <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+    <a href="/<%= PATH_PROXY %>/logout" class="btn btn-outline-danger btn-sm">Logout</a>
   </div>
 
   <!-- 🏠 Form Tambah Properti -->
-  <form action="/admin/save" method="POST" enctype="multipart/form-data" class="border p-4 rounded bg-light shadow-sm mb-5">
+  <form action="/<%= PATH_PROXY %>/admin/save" method="POST" enctype="multipart/form-data" class="border p-4 rounded bg-light shadow-sm mb-5">
     <h4 class="mb-3">Tambah Properti Baru</h4>
 
     <div class="row">
@@ -88,7 +88,7 @@
             <td>
               <% item.media.slice(0,3).forEach(m => { %>
                 <% if (m.type === 'image') { %>
-                  <img src="/uploads/<%= m.src %>" alt="" width="50" height="50" class="rounded me-1 shadow-sm">
+                  <img src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" alt="" width="50" height="50" class="rounded me-1 shadow-sm">
                 <% } else { %>
                   🎥 <small>(video)</small>
                 <% } %>
@@ -96,8 +96,8 @@
             </td>
             <td><small><%= item.description || '-' %></small></td>
             <td class="text-center">
-              <a href="/admin/edit/<%= item.id %>" class="btn btn-sm btn-warning me-1">Edit</a>
-              <form action="/admin/delete/<%= item.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+              <a href="/<%= PATH_PROXY %>/admin/edit/<%= item.id %>" class="btn btn-sm btn-warning me-1">Edit</a>
+              <form action="/<%= PATH_PROXY %>/admin/delete/<%= item.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                 <button class="btn btn-sm btn-danger px-3">Hapus</button>
               </form>
             </td>
