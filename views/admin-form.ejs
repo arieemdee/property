@@ -50,7 +50,8 @@
 
         <div class="mb-3">
           <label class="form-label">Upload Gambar/Video Baru</label>
-          <input type="file" name="media[]" class="form-control" multiple accept="image/*,video/*">
+          <!-- Perbaikan: hapus [] agar Multer tidak error -->
+          <input type="file" name="media" class="form-control" multiple accept="image/*,video/*">
           <small class="text-muted">Bisa pilih beberapa file sekaligus</small>
         </div>
 

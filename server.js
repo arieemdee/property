@@ -234,6 +234,32 @@ app.get(`/${PATH_PROXY}/admin/delete-media/:id/:filename`, requireLogin, (req, r
   res.redirect(`/${PATH_PROXY}/admin/form/${id}`);
 });
 
+// 🗑️ HAPUS PROPERTI
+app.get(`/${PATH_PROXY}/admin/delete/:id`, requireLogin, (req, res) => {
+  const { id } = req.params;
+  let listings = readListings();
+
+  const propertyIndex = listings.findIndex((l) => l.id.toString() === id);
+  if (propertyIndex === -1) return res.status(404).send("Property not found");
+
+  const property = listings[propertyIndex];
+
+  // Hapus semua file media terkait
+  if (property.media && property.media.length > 0) {
+    property.media.forEach((m) => {
+      const filePath = path.join(UPLOAD_DIR, m.src);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    });
+  }
+
+  // Hapus properti dari listings
+  listings.splice(propertyIndex, 1);
+
+  writeListings(listings);
+  console.log(`🗑️ Properti ${id} dihapus`);
+
+  res.redirect(`/${PATH_PROXY}/admin`);
+});
 
 // 🚀 Jalankan server
 const PORT = process.env.PORT || 3000;
