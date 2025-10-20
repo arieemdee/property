@@ -1,215 +1,216 @@
-require("dotenv").config(); // 🧩 Load variabel dari .env
-
+require("dotenv").config();
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
-const session = require("express-session");
+const bodyParser = require("body-parser");
 
 const app = express();
-const router = express.Router();
 
-// 📦 Variabel dari .env (pakai nilai default jika belum di-set)
-const PORT = process.env.PORT || 3000;
-const SESSION_SECRET = process.env.SESSION_SECRET || "rahasia-super-admin";
-const PATH_PROXY = process.env.PATH_PROXY || "nano"
-
-// 📁 Lokasi file JSON
+// =====================================================
+// 🔧 KONFIGURASI DASAR
+// =====================================================
+const PATH_PROXY = "nano";
 const DATA_FILE = path.join(__dirname, "data", "listings.json");
+const UPLOAD_DIR = path.join(__dirname, "public", "uploads");
 
-// 🧩 Setup middleware
+// =====================================================
+// 🧩 MIDDLEWARE & STATIC FILES
+// =====================================================
+app.use(`/${PATH_PROXY}`, express.static(path.join(__dirname, "public")));
+app.use(`/${PATH_PROXY}/uploads`, express.static(UPLOAD_DIR));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// =====================================================
+// ⚙️ VIEW ENGINE
+// =====================================================
 app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.set("views", path.join(__dirname, "views"));
 
-// Mount router di /nano
-app.use(`/${PATH_PROXY}`, router);
+// =====================================================
+// 📁 CEK & BUAT FOLDER JIKA BELUM ADA
+// =====================================================
+if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]");
 
-// 🔗 Static file serving
-app.use(express.static(path.join(__dirname, "public")));
-app.use(`/${PATH_PROXY}/uploads`, express.static(path.join(__dirname, "public", "uploads")));
-app.use(`/${PATH_PROXY}/css`, express.static(path.join(__dirname, "public", "css")));
-app.use(`/${PATH_PROXY}/js`, express.static(path.join(__dirname, "public", "js")));
-
-// 🧠 Session untuk login admin
-app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-
-// 📸 Konfigurasi upload media
-const storage = multer.diskStorage({
-  destination: (req, file, cb) =>
-    cb(null, path.join(__dirname, "public", "uploads")),
-  filename: (req, file, cb) =>
-    cb(null, Date.now() + path.extname(file.originalname)),
-});
-const upload = multer({ storage });
-
-// 📖 Fungsi bantu
-function readData() {
-  if (!fs.existsSync(DATA_FILE)) return [];
-  return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+// =====================================================
+// 🔧 FUNGSI BANTU
+// =====================================================
+function readListings() {
+  try {
+    return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+  } catch {
+    return [];
+  }
 }
 
-function writeData(data) {
+function writeListings(data) {
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 }
 
-// ===================
-// 🔐 LOGIN ADMIN
-// ===================
-app.get("/login", (req, res) => res.render("login", { error: null }));
-
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  if (
-    username === process.env.ADMIN_USER &&
-    password === process.env.ADMIN_PASS
-  ) {
-    req.session.isAdmin = true;
-    res.redirect(`/${PATH_PROXY}/admin`);
-  } else {
-    res.render("login", { error: "Username atau password salah" });
-  }
+// =====================================================
+// 📦 KONFIGURASI UPLOAD MULTER
+// =====================================================
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, UPLOAD_DIR),
+  filename: (req, file, cb) => {
+    const unique = Date.now() + "-" + Math.round(Math.random() * 1e6);
+    cb(null, unique + path.extname(file.originalname));
+  },
 });
+const upload = multer({ storage });
 
-app.get("/logout", (req, res) => req.session.destroy(() => res.redirect("/")));
+// =====================================================
+// 🏠 ROUTE: HALAMAN UTAMA
+// =====================================================
+app.get(`/${PATH_PROXY}`, (req, res) => {
+  const filters = req.query;
+  let listings = readListings();
 
-// 🔒 Middleware proteksi admin
-function requireLogin(req, res, next) {
-  if (!req.session.isAdmin) return res.redirect(`/${PATH_PROXY}/admin`);
-  next();
-}
-
-// ===================
-// 🏠 HALAMAN UTAMA
-// ===================
-app.get("/", (req, res) => {
-  let { location = "", type = "", sort = "", page = 1 } = req.query;
-  let listings = readData(); // harus let, karena akan difilter
-
-  // 🔹 Filter lokasi
-  if (location.trim() !== "") {
-    listings = listings.filter(item =>
-      item.location.toLowerCase().includes(location.toLowerCase())
+  // 🔍 Filter lokasi
+  if (filters.location)
+    listings = listings.filter((x) =>
+      x.location.toLowerCase().includes(filters.location.toLowerCase())
     );
-  }
 
-  // 🔹 Filter tipe
-  if (type.trim() !== "") {
-    listings = listings.filter(item => item.type === type);
-  }
+  // 🔍 Filter tipe properti
+  if (filters.type)
+    listings = listings.filter((x) => x.type === filters.type);
 
-  // 🔹 Sort harga
-  if (sort === "price_asc") {
-    listings.sort((a, b) => a.price - b.price);
-  } else if (sort === "price_desc") {
-    listings.sort((a, b) => b.price - a.price);
-  }
+  // 💰 Sortir harga
+  if (filters.sort === "price_asc") listings.sort((a, b) => a.price - b.price);
+  if (filters.sort === "price_desc") listings.sort((a, b) => b.price - a.price);
 
-  // 🔹 Pagination
-  page = parseInt(page) || 1;
+  // 📄 Pagination
+  const page = parseInt(filters.page) || 1;
   const perPage = 6;
-  const start = (page - 1) * perPage;
-  const paginatedData = listings.slice(start, start + perPage);
-
-  const pagination = {
-    currentPage: page,
-    totalPages: Math.ceil(listings.length / perPage),
-  };
+  const totalPages = Math.ceil(listings.length / perPage);
+  const paginated = listings.slice((page - 1) * perPage, page * perPage);
 
   res.render("index", {
-    listings: paginatedData,
-    pagination,
-    filters: { location, type, sort },
-    PATH_PROXY
+    title: "NANO Properti",
+    activePage: "home",
+    PATH_PROXY,
+    listings: paginated,
+    filters,
+    pagination: { currentPage: page, totalPages },
   });
 });
 
-
-// ===================
-// 🧰 ADMIN PANEL
-// ===================
-app.get("/admin", requireLogin, (req, res) => {
-  const listings = readData();
-  res.render("admin", { listings, PATH_PROXY });
+// =====================================================
+// ⚙️ ROUTE: ADMIN DASHBOARD
+// =====================================================
+app.get(`/${PATH_PROXY}/admin`, (req, res) => {
+  const listings = readListings();
+  res.render("admin", {
+    title: "Admin Properti",
+    activePage: "admin",
+    PATH_PROXY,
+    listings,
+  });
 });
 
-app.get("/admin/new", requireLogin, (req, res) =>
-  res.render("admin-form", { item: null, PATH_PROXY })
-);
+// =====================================================
+// 📝 ROUTE: FORM TAMBAH / EDIT PROPERTI
+// =====================================================
+app.get(`/${PATH_PROXY}/admin/form/:id?`, (req, res) => {
+  const { id } = req.params;
+  const listings = readListings();
 
-app.get("/admin/edit/:id", requireLogin, (req, res) => {
-  const listings = readData();
-  const item = listings.find(x => x.id == req.params.id);
-  res.render("admin-form", { item, PATH_PROXY });
-});
-
-// 💾 Tambah/edit properti
-app.post("/admin/save", requireLogin, upload.array("media"), (req, res) => {
-  const listings = readData();
-  const { id, title, price, location, type, contact, description, captions } =
-    req.body;
-
-  const captionArray = captions ? captions.split("\n").map((c) => c.trim()) : [];
-
-  let media = [];
-  if (req.files?.length) {
-    media = req.files.map((file, i) => ({
-      type: file.mimetype.startsWith("video") ? "video" : "image",
-      src: file.filename,
-      caption: captionArray[i] || "",
-    }));
+  let property = null;
+  if (id) {
+    property = listings.find(l => String(l.id) === String(id)) || null;
   }
+
+  res.render("admin-form", {
+    title: id ? "Edit Properti" : "Tambah Properti Baru",
+    activePage: "admin",
+    PATH_PROXY,
+    property
+  });
+});
+
+// =====================================================
+// 💾 ROUTE: SIMPAN / UPDATE PROPERTI
+// =====================================================
+app.post(`/${PATH_PROXY}/admin/save`, upload.array("media", 10), (req, res) => {
+  const { id, title, price, type, location, contact, description } = req.body;
+  const captions = req.body.captions ? req.body.captions.split("\n") : [];
+  let listings = readListings();
+  let property;
 
   if (id) {
-    // Update data lama
-    const idx = listings.findIndex((x) => x.id == id);
-    if (idx !== -1) {
-      listings[idx] = {
-        ...listings[idx],
-        title,
-        price: Number(price),
-        location,
-        type,
-        contact,
-        description,
-        media: media.length ? media : listings[idx].media,
-      };
+    // ✏️ Edit Properti
+    property = listings.find((l) => l.id === id);
+    if (!property) {
+      console.error(`❌ Properti ID ${id} tidak ditemukan`);
+      return res.redirect(`/${PATH_PROXY}/admin`);
+    }
+
+    // Update data utama
+    Object.assign(property, { title, price, type, location, contact, description });
+
+    // Tambahkan media baru (jika diupload)
+    if (req.files && req.files.length > 0) {
+      const newMedia = req.files.map((file, i) => ({
+        type: file.mimetype.startsWith("video") ? "video" : "image",
+        src: file.filename,
+        caption: captions[i] || "",
+      }));
+      property.media.push(...newMedia);
     }
   } else {
-    // Tambah baru
-    listings.push({
-      id: Date.now(),
+    // ➕ Tambah Properti Baru
+    property = {
+      id: Date.now().toString(),
       title,
-      price: Number(price),
-      location,
+      price,
       type,
+      location,
       contact,
       description,
-      media,
-    });
+      media: (req.files || []).map((file, i) => ({
+        type: file.mimetype.startsWith("video") ? "video" : "image",
+        src: file.filename,
+        caption: captions[i] || "",
+      })),
+    };
+    listings.push(property);
   }
 
-  writeData(listings);
+  writeListings(listings);
+  console.log("✅ Properti disimpan:", property.title);
   res.redirect(`/${PATH_PROXY}/admin`);
 });
 
-// ❌ Hapus properti
-app.post("/admin/delete/:id", requireLogin, (req, res) => {
-  let listings = readData();
-  listings = listings.filter(x => x.id != req.params.id);
-  writeData(listings);
-  res.redirect(`/${PATH_PROXY}/admin`);
+// =====================================================
+// 🗑️ ROUTE: HAPUS MEDIA
+// =====================================================
+app.get(`/${PATH_PROXY}/admin/delete-media/:id/:filename`, (req, res) => {
+  const { id, filename } = req.params;
+  let listings = readListings();
+
+  const property = listings.find((l) => l.id === id);
+  if (!property) return res.status(404).send("Property not found");
+
+  // Hapus dari array media
+  property.media = property.media.filter((m) => m.src !== filename);
+
+  // Hapus file fisik (pastikan lokasi sesuai)
+  const filePath = path.join(UPLOAD_DIR, filename);
+  if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+
+  writeListings(listings);
+  console.log(`🗑️ Media ${filename} dihapus dari properti ${id}`);
+
+  res.redirect(`/${PATH_PROXY}/admin/form/${id}`);
 });
 
-// ===================
-// 🚀 Jalankan server
-// ===================
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+// =====================================================
+// 🚀 JALANKAN SERVER
+// =====================================================
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server berjalan di http://localhost:${PORT}/${PATH_PROXY}`);
+});

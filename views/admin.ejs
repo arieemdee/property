@@ -2,135 +2,58 @@
 
 <div class="container my-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Admin Properti</h1>
-    <a href="/<%= PATH_PROXY %>/logout" class="btn btn-outline-danger btn-sm">Logout</a>
+    <h3 class="fw-bold text-dark">📋 Daftar Properti</h3>
+    <a href="/<%= PATH_PROXY %>/admin/form" class="btn btn-success">
+      <i class="bi bi-plus-lg"></i> Tambah Properti
+    </a>
   </div>
 
-  <!-- 🏠 Form Tambah Properti -->
-  <form action="/<%= PATH_PROXY %>/admin/save" method="POST" enctype="multipart/form-data" class="border p-4 rounded bg-light shadow-sm mb-5">
-    <h4 class="mb-3">Tambah Properti Baru</h4>
-
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label class="form-label fw-semibold">Judul</label>
-        <input type="text" name="title" class="form-control" placeholder="Judul properti..." required>
-      </div>
-      <div class="col-md-3 mb-3">
-        <label class="form-label fw-semibold">Harga (Rp)</label>
-        <input type="number" name="price" class="form-control" required>
-      </div>
-      <div class="col-md-3 mb-3">
-        <label class="form-label fw-semibold">Tipe</label>
-        <select name="type" class="form-select">
-          <option value="house">Rumah</option>
-          <option value="car">Mobil</option>
-        </select>
-      </div>
+  <% if (listings.length === 0) { %>
+    <div class="alert alert-info text-center">
+      Belum ada properti yang ditambahkan.
     </div>
+  <% } else { %>
+    <div class="row g-4">
+      <% listings.forEach(item => { %>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm border-0">
+            <% if (item.media && item.media.length > 0) { %>
+              <% const cover = item.media[0]; %>
+              <% if (cover.type === 'video') { %>
+                <video class="card-img-top" controls style="height: 200px; object-fit: cover;">
+                  <source src="/<%= PATH_PROXY %>/uploads/<%= cover.src %>" type="video/mp4">
+                </video>
+              <% } else { %>
+                <img src="/<%= PATH_PROXY %>/uploads/<%= cover.src %>" class="card-img-top" alt="<%= item.title %>" style="height: 200px; object-fit: cover;">
+              <% } %>
+            <% } else { %>
+              <div class="bg-secondary d-flex align-items-center justify-content-center text-white" style="height:200px;">
+                <i class="bi bi-image" style="font-size:2rem;"></i>
+              </div>
+            <% } %>
 
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label class="form-label fw-semibold">Lokasi</label>
-        <input type="text" name="location" class="form-control" required>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label class="form-label fw-semibold">Kontak (No. WhatsApp)</label>
-        <input type="text" name="contact" class="form-control" placeholder="628xxxxxxxxxx" required>
-      </div>
+            <div class="card-body">
+              <h5 class="card-title text-dark mb-1"><%= item.title %></h5>
+              <p class="text-muted small mb-1">
+                <i class="bi bi-geo-alt"></i> <%= item.location %>
+              </p>
+              <p class="fw-bold text-success mb-2">
+                Rp <%= item.price.toLocaleString('id-ID') %>
+              </p>
+              <p class="text-truncate"><%= item.description %></p>
+            </div>
+
+            <div class="card-footer bg-light border-0 d-flex justify-content-between">
+              <a href="/<%= PATH_PROXY %>/admin/form/<%= item.id %>" class="btn btn-sm btn-warning">Edit</a>
+              <a href="/<%= PATH_PROXY %>/admin/delete/<%= item.id %>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus properti ini?')">
+                <i class="bi bi-trash"></i> Hapus
+              </a>
+            </div>
+          </div>
+        </div>
+      <% }); %>
     </div>
-
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Deskripsi Properti</label>
-      <textarea name="description" rows="3" class="form-control" placeholder="Tuliskan deskripsi properti..." required></textarea>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Upload Gambar / Video (bisa banyak)</label>
-      <input type="file" name="media" id="mediaInput" class="form-control" accept="image/*,video/*" multiple required>
-      <div id="previewArea" class="mt-3 d-flex flex-wrap gap-2"></div>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label fw-semibold">Caption Tiap Media (opsional)</label>
-      <small class="d-block text-muted mb-1">Pisahkan setiap caption dengan baris baru (urutan sesuai media)</small>
-      <textarea name="captions" rows="3" class="form-control" placeholder="Contoh:\nTampak depan rumah\nVideo ruang tamu"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">💾 Simpan Properti</button>
-  </form>
-
-  <!-- 📋 Daftar Properti -->
-  <h4 class="mb-3">Daftar Properti Tersimpan</h4>
-  <table class="table table-bordered align-middle shadow-sm">
-    <thead class="table-secondary text-center">
-      <tr>
-        <th>Judul</th>
-        <th>Harga</th>
-        <th>Lokasi</th>
-        <th>Tipe</th>
-        <th>Media</th>
-        <th>Deskripsi</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if (listings.length === 0) { %>
-        <tr>
-          <td colspan="7" class="text-center text-muted py-4">Belum ada properti yang tersimpan</td>
-        </tr>
-      <% } else { %>
-        <% listings.forEach(item => { %>
-          <tr>
-            <td><%= item.title %></td>
-            <td>Rp <%= Number(item.price).toLocaleString('id-ID') %></td>
-            <td><%= item.location %></td>
-            <td><%= item.type %></td>
-            <td>
-              <% item.media.slice(0,3).forEach(m => { %>
-                <% if (m.type === 'image') { %>
-                  <img src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" alt="" width="50" height="50" class="rounded me-1 shadow-sm">
-                <% } else { %>
-                  🎥 <small>(video)</small>
-                <% } %>
-              <% }) %>
-            </td>
-            <td><small><%= item.description || '-' %></small></td>
-            <td class="text-center">
-              <a href="/<%= PATH_PROXY %>/admin/edit/<%= item.id %>" class="btn btn-sm btn-warning me-1">Edit</a>
-              <form action="/<%= PATH_PROXY %>/admin/delete/<%= item.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                <button class="btn btn-sm btn-danger px-3">Hapus</button>
-              </form>
-            </td>
-          </tr>
-        <% }) %>
-      <% } %>
-    </tbody>
-  </table>
+  <% } %>
 </div>
-
-<!-- 🧠 JS Preview Gambar/Video -->
-<script>
-  const mediaInput = document.getElementById('mediaInput');
-  const previewArea = document.getElementById('previewArea');
-
-  mediaInput.addEventListener('change', function() {
-    previewArea.innerHTML = '';
-    Array.from(this.files).forEach(file => {
-      const url = URL.createObjectURL(file);
-      const wrapper = document.createElement('div');
-      wrapper.style.width = '120px';
-      wrapper.style.textAlign = 'center';
-      wrapper.classList.add('p-1', 'border', 'rounded');
-
-      if (file.type.startsWith('image')) {
-        wrapper.innerHTML = `<img src="${url}" class="img-fluid rounded" style="height:80px;object-fit:cover;"><br><small>${file.name}</small>`;
-      } else if (file.type.startsWith('video')) {
-        wrapper.innerHTML = `<video src="${url}" style="width:100%;height:80px;object-fit:cover;" muted></video><br><small>${file.name}</small>`;
-      }
-
-      previewArea.appendChild(wrapper);
-    });
-  });
-</script>
 
 <%- include('partials/footer') %>

@@ -1,73 +1,93 @@
 <%- include('partials/header') %>
 
 <div class="container my-5">
-  <h1 class="text-center mb-4"><%= item ? 'Edit Properti' : 'Tambah Properti Baru' %></h1>
-
-  <form action="/<%= PATH_PROXY %>/admin/save" method="POST" enctype="multipart/form-data" class="border p-4 rounded bg-light">
-    <% if (item) { %>
-      <input type="hidden" name="id" value="<%= item.id %>">
-    <% } %>
-
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label>Judul</label>
-        <input type="text" name="title" class="form-control" value="<%= item ? item.title : '' %>" required>
-      </div>
-      <div class="col-md-3 mb-3">
-        <label>Harga</label>
-        <input type="number" name="price" class="form-control" value="<%= item ? item.price : '' %>" required>
-      </div>
-      <div class="col-md-3 mb-3">
-        <label>Tipe</label>
-        <select name="type" class="form-select">
-          <option value="house" <%= item && item.type === 'house' ? 'selected' : '' %>>Rumah</option>
-          <option value="car" <%= item && item.type === 'car' ? 'selected' : '' %>>Mobil</option>
-        </select>
-      </div>
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">
+        <%= property ? '✏️ Edit Properti' : '➕ Tambah Properti Baru' %>
+      </h4>
     </div>
 
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label>Lokasi</label>
-        <input type="text" name="location" class="form-control" value="<%= item ? item.location : '' %>" required>
-      </div>
-      <div class="col-md-6 mb-3">
-        <label>Kontak (WA)</label>
-        <input type="text" name="contact" class="form-control" value="<%= item ? item.contact : '' %>" required>
-      </div>
-    </div>
+    <div class="card-body">
+      <form method="POST" action="/<%= PATH_PROXY %>/admin/save" enctype="multipart/form-data">
+        <% if (property) { %>
+          <input type="hidden" name="id" value="<%= property.id %>">
+        <% } %>
 
-    <div class="mb-3">
-      <label>Deskripsi</label>
-      <textarea name="description" class="form-control" rows="4" required><%= item ? item.description : '' %></textarea>
-    </div>
-
-    <div class="mb-3">
-      <label>Upload Gambar/Video (boleh kosong jika tidak ingin ganti)</label>
-      <input type="file" name="media" class="form-control" accept="image/*,video/*" multiple>
-      <% if (item && item.media.length > 0) { %>
-        <div class="mt-2 d-flex flex-wrap gap-2">
-          <% item.media.forEach(m => { %>
-            <% if (m.type === 'image') { %>
-              <img src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" alt="" width="80" height="80" class="rounded border">
-            <% } else { %>
-              <video src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" width="80" height="80" controls muted></video>
-            <% } %>
-          <% }) %>
+        <div class="mb-3">
+          <label class="form-label">Judul Properti</label>
+          <input type="text" name="title" class="form-control" required value="<%= property?.title || '' %>">
         </div>
-      <% } %>
-    </div>
 
-    <div class="mb-3">
-      <label>Caption (satu baris per file, urutan sesuai upload)</label>
-      <textarea name="captions" class="form-control" rows="3"><%= item ? item.media.map(m => m.caption || '').join('\n') : '' %></textarea>
-    </div>
+        <div class="mb-3">
+          <label class="form-label">Harga</label>
+          <input type="number" name="price" class="form-control" required value="<%= property?.price || '' %>">
+        </div>
 
-    <div class="d-flex justify-content-between">
-      <a href="/<%= PATH_PROXY %>/admin" class="btn btn-secondary">Kembali</a>
-      <button type="submit" class="btn btn-primary"><%= item ? 'Simpan Perubahan' : 'Tambah Properti' %></button>
+        <div class="mb-3">
+          <label class="form-label">Tipe</label>
+          <select name="type" class="form-select">
+            <option value="">Pilih Tipe</option>
+            <option value="house" <%= property?.type === 'house' ? 'selected' : '' %>>Rumah</option>
+            <option value="car" <%= property?.type === 'car' ? 'selected' : '' %>>Mobil</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Lokasi</label>
+          <input type="text" name="location" class="form-control" required value="<%= property?.location || '' %>">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Kontak (Nomor WhatsApp)</label>
+          <input type="text" name="contact" class="form-control" required value="<%= property?.contact || '' %>">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Deskripsi</label>
+          <textarea name="description" class="form-control" rows="4"><%= property?.description || '' %></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Upload Gambar/Video Baru</label>
+          <input type="file" name="media" class="form-control" multiple accept="image/*,video/*">
+          <small class="text-muted">Bisa pilih beberapa file sekaligus</small>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Caption (satu baris per media)</label>
+          <textarea name="captions" class="form-control" rows="3"></textarea>
+        </div>
+
+        <% if (property && property.media && property.media.length > 0) { %>
+          <div class="mb-4">
+            <h6>📸 Media Saat Ini:</h6>
+            <div class="row">
+              <% property.media.forEach(m => { %>
+                <div class="col-md-3 mb-3 text-center">
+                  <% if (m.type === 'video') { %>
+                    <video src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" class="w-100 rounded" controls></video>
+                  <% } else { %>
+                    <img src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" class="img-fluid rounded shadow-sm" alt="Media">
+                  <% } %>
+                  <div class="mt-2">
+                    <a href="/<%= PATH_PROXY %>/admin/delete-media/<%= property.id %>/<%= m.src %>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus media ini?')">
+                      Hapus
+                    </a>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+
+        <div class="text-end">
+          <a href="/<%= PATH_PROXY %>/admin" class="btn btn-secondary">Kembali</a>
+          <button type="submit" class="btn btn-success">Simpan</button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 
 <%- include('partials/footer') %>
