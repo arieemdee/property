@@ -3,12 +3,20 @@
 <div class="container my-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold text-dark">📋 Daftar Properti</h3>
-    <a href="/<%= PATH_PROXY %>/admin/form" class="btn btn-success">
-      <i class="bi bi-plus-lg"></i> Tambah Properti
-    </a>
+    <% if (username) { %>
+      <div>
+        <span class="me-3 text-muted">👋 Halo, <strong><%= username %></strong></span>
+        <a href="/<%= PATH_PROXY %>/logout" class="btn btn-danger btn-sm">Logout</a>
+        <a href="/<%= PATH_PROXY %>/admin/form" class="btn btn-success btn-sm ms-2">
+          <i class="bi bi-plus-lg"></i> Tambah Properti
+        </a>
+      </div>
+    <% } else { %>
+      <a href="/<%= PATH_PROXY %>/login" class="btn btn-primary btn-sm">Login</a>
+    <% } %>
   </div>
 
-  <% if (listings.length === 0) { %>
+  <% if (!listings || listings.length === 0) { %>
     <div class="alert alert-info text-center">
       Belum ada properti yang ditambahkan.
     </div>
@@ -38,7 +46,7 @@
                 <i class="bi bi-geo-alt"></i> <%= item.location %>
               </p>
               <p class="fw-bold text-success mb-2">
-                Rp <%= item.price.toLocaleString('id-ID') %>
+                Rp <%= Number(item.price).toLocaleString('id-ID') %>
               </p>
               <p class="text-truncate"><%= item.description %></p>
             </div>

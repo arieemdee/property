@@ -26,7 +26,7 @@
 
         <div class="mb-3">
           <label class="form-label">Tipe</label>
-          <select name="type" class="form-select">
+          <select name="type" class="form-select" required>
             <option value="">Pilih Tipe</option>
             <option value="house" <%= property?.type === 'house' ? 'selected' : '' %>>Rumah</option>
             <option value="car" <%= property?.type === 'car' ? 'selected' : '' %>>Mobil</option>
@@ -50,7 +50,7 @@
 
         <div class="mb-3">
           <label class="form-label">Upload Gambar/Video Baru</label>
-          <input type="file" name="media" class="form-control" multiple accept="image/*,video/*">
+          <input type="file" name="media[]" class="form-control" multiple accept="image/*,video/*">
           <small class="text-muted">Bisa pilih beberapa file sekaligus</small>
         </div>
 
