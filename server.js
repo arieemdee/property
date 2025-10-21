@@ -137,14 +137,22 @@ app.get(`/${PATH_PROXY}/admin`, requireLogin, (req, res) => {
     console.error(err);
   }
 
+  // Pagination
+  const page = parseInt(req.query.page) || 1;
+  const perPage = 10; // jumlah properti per halaman
+  const totalPages = Math.ceil(listings.length / perPage);
+  const paginated = listings.slice((page - 1) * perPage, page * perPage);
+
   res.render("admin", {
     title: "Admin Properti",
     activePage: "admin",
     PATH_PROXY,
-    listings,
-    username: req.session.username
+    listings: paginated,
+    username: req.session.username,
+    pagination: { currentPage: page, totalPages },
   });
 });
+
 
 app.get(`/${PATH_PROXY}/admin/form/:id?`, requireLogin, (req, res) => {
   const id = req.params.id;

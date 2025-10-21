@@ -65,3 +65,16 @@
 </div>
 
 <%- include('partials/footer') %>
+
+<% if (pagination.totalPages > 1) { %>
+  <nav class="mt-4">
+    <ul class="pagination justify-content-center">
+      <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+        <li class="page-item <%= i === pagination.currentPage ? 'active' : '' %>">
+          <a class="page-link" href="/<%= PATH_PROXY %>/admin?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+<% } %>
+
