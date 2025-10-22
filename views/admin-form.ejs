@@ -14,78 +14,115 @@
           <input type="hidden" name="id" value="<%= property.id %>">
         <% } %>
 
-        <div class="mb-3">
-          <label class="form-label">Judul Properti</label>
-          <input type="text" name="title" class="form-control" required value="<%= property?.title || '' %>">
+        <!-- Basic Information -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Judul Properti</label>
+              <input type="text" name="title" class="form-control" required value="<%= property?.title || '' %>">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Harga</label>
+              <input type="number" name="price" class="form-control" required value="<%= property?.price || '' %>">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Tipe</label>
+              <select name="type" class="form-select" required>
+                <option value="">Pilih Tipe</option>
+                <option value="house" <%= property?.type === 'house' ? 'selected' : '' %>>Rumah</option>
+                <option value="car" <%= property?.type === 'car' ? 'selected' : '' %>>Mobil</option>
+                <option value="electro" <%= property?.type === 'electro' ? 'selected' : '' %>>Elektronik</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Lokasi</label>
+              <input type="text" name="location" class="form-control" required value="<%= property?.location || '' %>">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Kontak (Nomor WhatsApp)</label>
+              <input type="text" name="contact" class="form-control" required value="<%= property?.contact || '' %>">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="sold" id="soldCheck" 
+                       <%= property?.sold ? 'checked' : '' %>>
+                <label class="form-check-label" for="soldCheck">
+                  Sudah Terjual
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Harga</label>
-          <input type="number" name="price" class="form-control" required value="<%= property?.price || '' %>">
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Tipe</label>
-          <select name="type" class="form-select" required>
-            <option value="">Pilih Tipe</option>
-            <option value="house" <%= property?.type === 'house' ? 'selected' : '' %>>Rumah</option>
-            <option value="car" <%= property?.type === 'car' ? 'selected' : '' %>>Mobil</option>
-            <option value="electro" <%= property?.type === 'electro' ? 'selected' : '' %>>Elektronik</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Lokasi</label>
-          <input type="text" name="location" class="form-control" required value="<%= property?.location || '' %>">
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Kontak (Nomor WhatsApp)</label>
-          <input type="text" name="contact" class="form-control" required value="<%= property?.contact || '' %>">
-        </div>
-
-        <div class="mb-3">
+        <!-- Description -->
+        <div class="mb-4">
           <label class="form-label">Deskripsi</label>
           <textarea name="description" class="form-control" rows="4"><%= property?.description || '' %></textarea>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">Upload Gambar/Video Baru</label>
-          <!-- Perbaikan: hapus [] agar Multer tidak error -->
-          <input type="file" name="media" class="form-control" multiple accept="image/*,video/*">
-          <small class="text-muted">Bisa pilih beberapa file sekaligus</small>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Caption (satu baris per media)</label>
-          <textarea name="captions" class="form-control" rows="3"></textarea>
-        </div>
-
-        <% if (property && property.media && property.media.length > 0) { %>
-          <div class="mb-4">
-            <h6>📸 Media Saat Ini:</h6>
-            <div class="row">
-              <% property.media.forEach(m => { %>
-                <div class="col-md-3 mb-3 text-center">
-                  <% if (m.type === 'video') { %>
-                    <video src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" class="w-100 rounded" controls></video>
-                  <% } else { %>
-                    <img src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" class="img-fluid rounded shadow-sm" alt="Media">
-                  <% } %>
-                  <div class="mt-2">
-                    <a href="/<%= PATH_PROXY %>/admin/delete-media/<%= property.id %>/<%= m.src %>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus media ini?')">
-                      Hapus
-                    </a>
-                  </div>
-                </div>
-              <% }) %>
-            </div>
+        <!-- Media Upload -->
+        <div class="card mb-4">
+          <div class="card-header bg-light">
+            <h6 class="mb-0">📸 Media</h6>
           </div>
-        <% } %>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Upload Gambar/Video Baru</label>
+              <input type="file" name="media" class="form-control" multiple accept="image/*,video/*">
+              <small class="text-muted">Bisa pilih beberapa file sekaligus</small>
+            </div>
 
+            <div class="mb-3">
+              <label class="form-label">Caption (satu baris per media)</label>
+              <textarea name="captions" class="form-control" rows="3"></textarea>
+            </div>
+
+            <% if (property?.media?.length > 0) { %>
+              <div class="mt-4">
+                <h6 class="mb-3">Media Saat Ini:</h6>
+                <div class="row g-3">
+                  <% property.media.forEach(m => { %>
+                    <div class="col-6 col-md-3">
+                      <div class="card h-100">
+                        <div class="card-body p-2 text-center">
+                          <% if (m.type === 'video') { %>
+                            <video src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" 
+                                   class="w-100 rounded mb-2" controls></video>
+                          <% } else { %>
+                            <img src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" 
+                                 class="img-fluid rounded mb-2" alt="Media">
+                          <% } %>
+                          <a href="/<%= PATH_PROXY %>/admin/delete-media/<%= property.id %>/<%= m.src %>" 
+                             class="btn btn-sm btn-danger w-100" 
+                             onclick="return confirm('Hapus media ini?')">
+                            <i class="bi bi-trash"></i> Hapus
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  <% }) %>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
         <div class="text-end">
-          <a href="/<%= PATH_PROXY %>/admin" class="btn btn-secondary">Kembali</a>
-          <button type="submit" class="btn btn-success">Simpan</button>
+          <a href="/<%= PATH_PROXY %>/admin" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Kembali
+          </a>
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-lg"></i> Simpan
+          </button>
         </div>
       </form>
     </div>

@@ -40,7 +40,11 @@ if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]");
 // 📚 Fungsi bantu
 function readListings() {
   try {
-    return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+    const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+    // Pastikan field `sold` selalu ada (boolean) untuk kompatibilitas data lama
+    return Array.isArray(data)
+      ? data.map((item) => ({ ...item, sold: !!item.sold }))
+      : [];
   } catch {
     return [];
   }
@@ -132,7 +136,7 @@ app.get(`/${PATH_PROXY}/logout`, (req, res) => {
 app.get(`/${PATH_PROXY}/admin`, requireLogin, (req, res) => {
   let listings = [];
   try {
-    listings = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+    listings = readListings();
   } catch (err) {
     console.error(err);
   }
@@ -170,6 +174,8 @@ app.get(`/${PATH_PROXY}/admin/form/:id?`, requireLogin, (req, res) => {
 // 💾 SIMPAN / UPDATE PROPERTI
 app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (req, res) => {
   const { id, title, price, type, location, contact, description } = req.body;
+  // Parse sold checkbox (on dari form) atau values lain jika dikirim via JS
+  const sold = req.body.sold === "on" || req.body.sold === "true" || req.body.sold === "1";
   const captions = req.body.captions ? req.body.captions.split("\n") : [];
   let listings = readListings();
   let property;
@@ -186,6 +192,7 @@ app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (
     property.location = location;
     property.contact = contact;
     property.description = description;
+    property.sold = !!sold;
 
     // Tambah media baru
     if (req.files?.length > 0) {
@@ -194,6 +201,7 @@ app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (
         src: file.filename,
         caption: captions[i] || "",
       }));
+      property.media = property.media || [];
       property.media.push(...newMedia);
     }
   } else {
@@ -206,6 +214,7 @@ app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (
       location,
       contact,
       description,
+      sold: !!sold,
       media: (req.files || []).map((file, i) => ({
         type: file.mimetype.startsWith("video") ? "video" : "image",
         src: file.filename,

@@ -5,8 +5,9 @@
     "price": 700000000,
     "location": "Kemasan, Polokarto, Sukoharjo",
     "type": "house",
-    "contact": "62816678886 (Arie)",
+    "contact": "62816678886",
     "description": "Rumah siap huni dengan luas tanah 500m², ada 3 kamar tidur, halaman luas, dan akses dekat jalan raya.",
+    "sold": false,
     "media": [
       {
         "type": "image",
@@ -37,12 +38,13 @@
   },
   {
     "id": 1728534549396,
-    "title": "Mobile Pajero",
+    "title": "Terjual!! Mobile Pajero",
     "price": 350000000,
     "location": "Kemasan, Polokarto",
     "type": "car",
-    "contact": "62816678886 (Arie)",
+    "contact": "62816678886",
     "description": "Mobile keluarga pajero (Panas jobo jero)",
+    "sold": true,
     "media": [
       {
         "type": "image",
