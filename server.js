@@ -123,6 +123,8 @@ app.post(`/${PATH_PROXY}/login`, (req, res) => {
   res.render("login", {
     PATH_PROXY,
     error: "Username atau password salah",
+    title: "Login Admin",
+    activePage: ""
   });
 });
 
