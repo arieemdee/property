@@ -25,6 +25,26 @@
         "caption": "Tampak depan rumah"
       },
       {
+        "type": "image",
+        "src": "1761125756889-65943.jpeg",
+        "caption": "Tampak depan rumah"
+      },
+      {
+        "type": "image",
+        "src": "1761125757104-890352.jpeg",
+        "caption": "Sertifikat rumah Hak Milik"
+      },
+      {
+        "type": "image",
+        "src": "1761125756981-205981.jpeg",
+        "caption": "Sertifikat rumah Hak Milik"
+      },
+      {
+        "type": "image",
+        "src": "1761125757076-823230.jpeg",
+        "caption": "Denah Lokasi Rumah"
+      },
+      {
         "type": "video",
         "src": "rmhpolo1.mp4",
         "caption": "Video 1"
@@ -33,63 +53,6 @@
         "type": "video",
         "src": "rmhpolo2.mp4",
         "caption": "Video 2"
-      }
-    ]
-  },
-  {
-    "id": 1728534549396,
-    "title": "Mobile Pajero",
-    "price": 350000000,
-    "location": "Kemasan, Polokarto",
-    "type": "car",
-    "contact": "62816678886",
-    "description": "Mobile keluarga pajero (Panas jobo jero)",
-    "sold": true,
-    "media": [
-      {
-        "type": "image",
-        "src": "pajero1.jpeg",
-        "caption": "Tampak Belakang"
-      },
-      {
-        "type": "image",
-        "src": "pajero2.jpeg",
-        "caption": "Tampak Depan"
-      },
-      {
-        "type": "image",
-        "src": "pajero3.jpeg",
-        "caption": "AD SOLO"
-      },
-      {
-        "type": "image",
-        "src": "pajero4.jpeg",
-        "caption": "Mulus Terawat"
-      },
-      {
-        "type": "image",
-        "src": "pajero5.jpeg",
-        "caption": "Tampak Interior dalam bersih"
-      },
-      {
-        "type": "image",
-        "src": "pajero6.jpeg",
-        "caption": "Tampak Lega kabin"
-      },
-      {
-        "type": "image",
-        "src": "pajero7.jpeg",
-        "caption": "-"
-      },
-      {
-        "type": "image",
-        "src": "pajero8.jpeg",
-        "caption": "Elegan"
-      },
-      {
-        "type": "image",
-        "src": "pajero9.jpeg",
-        "caption": "Bagasi Luas"
       }
     ]
   }
