@@ -116,7 +116,7 @@
 
             <p class="card-text">
               <strong>Kontak:</strong>
-              <a href="https://wa.me/<%= item.contact %>" target="_blank" class="text-success">
+              <a href="https://wa.me/<%= item.contact.replace(/\D/g, '') %>" target="_blank" class="text-success">
                 <i class="bi bi-whatsapp"></i> <%= item.contact %>
               </a>
             </p>
