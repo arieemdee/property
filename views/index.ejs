@@ -6,43 +6,56 @@
 
 <div class="container my-1">
 
-  <!-- 🔍 Filter -->
-  <form class="row g-3 mb-4" method="get" action="">
-    <div class="col-md-3">
-      <input
-        type="text"
-        class="form-control"
-        name="location"
-        placeholder="Cari lokasi..."
-        value="<%= (filters && filters.location) || '' %>"
-      />
-    </div>
+  <!-- Tombol buka modal filter (di beranda atas) -->
+  <div class="d-flex justify-content-end mb-3">
+    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#filterModal">
+      <i class="bi bi-funnel"></i> Filter
+    </button>
+  </div>
+  
+  <!-- Modal Filter (letakkan di beranda, bukan di navbar/header) -->
+  <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="get" action="">
+          <div class="modal-header">
+            <h5 class="modal-title" id="filterModalLabel">Filter Pencarian</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Lokasi</label>
+              <input type="text" class="form-control" name="location" placeholder="Cari lokasi..." value="<%= (filters && filters.location) || '' %>">
+            </div>
 
-    <div class="col-md-3">
-      <select name="type" class="form-select">
-        <option value="">Semua Tipe</option>
-        <option value="house" <%= (filters && filters.type === 'house') ? 'selected' : '' %>>Rumah</option>
-        <option value="car" <%= (filters && filters.type === 'car') ? 'selected' : '' %>>Mobil</option>
-        <option value="electro" <%= (filters && filters.type === 'electro') ? 'selected' : '' %>>Elektronik</option>
-      </select>
-    </div>
+            <div class="mb-3">
+              <label class="form-label">Tipe</label>
+              <select name="type" class="form-select">
+                <option value="">Semua Tipe</option>
+                <option value="house" <%= (filters && filters.type === 'house') ? 'selected' : '' %>>Rumah</option>
+                <option value="car" <%= (filters && filters.type === 'car') ? 'selected' : '' %>>Mobil</option>
+                <option value="electro" <%= (filters && filters.type === 'electro') ? 'selected' : '' %>>Elektronik</option>
+              </select>
+            </div>
 
-    <div class="col-md-3">
-      <select name="sort" class="form-select">
-        <option value="">Urutkan</option>
-        <option value="price_asc" <%= (filters && filters.sort === 'price_asc') ? 'selected' : '' %>>
-          Harga Terendah
-        </option>
-        <option value="price_desc" <%= (filters && filters.sort === 'price_desc') ? 'selected' : '' %>>
-          Harga Tertinggi
-        </option>
-      </select>
-    </div>
+            <div class="mb-3">
+              <label class="form-label">Urutkan</label>
+              <select name="sort" class="form-select">
+                <option value="">Urutkan</option>
+                <option value="price_asc" <%= (filters && filters.sort === 'price_asc') ? 'selected' : '' %>>Harga Terendah</option>
+                <option value="price_desc" <%= (filters && filters.sort === 'price_desc') ? 'selected' : '' %>>Harga Tertinggi</option>
+              </select>
+            </div>
+          </div>
 
-    <div class="col-md-2">
-      <button class="btn btn-primary w-100" type="submit">Filter</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Terapkan Filter</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </form>
+  </div>
 
   <!-- 🏡 Daftar Properti -->
   <div class="row">
