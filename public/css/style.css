@@ -56,3 +56,8 @@
   color: #e74c3c;
   font-weight: bold;
 }
+
+/* Agar bisa tampilkan baris bari */
+.card-text {
+  white-space: pre-wrap;
+}
