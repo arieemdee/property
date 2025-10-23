@@ -14,8 +14,8 @@
 .sold-overlay {
   position: absolute;
   top: 12px;
-  left: -40px;
-  transform: rotate(-25deg);
+  left: -50px;
+  transform: rotate(-24deg);
   background: linear-gradient(90deg,#dc3545,#b02a37);
   color: #fff;
   padding: .35rem 3.25rem;
