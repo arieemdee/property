@@ -13,21 +13,15 @@
 
 .sold-overlay {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.78);
+  top: 12px;
+  left: -40px;
+  transform: rotate(-25deg);
+  background: linear-gradient(90deg,#dc3545,#b02a37);
   color: #fff;
-  padding: 0.7rem 1.2rem;
+  padding: .35rem 3.25rem;
   font-weight: 700;
-  border-radius: 0.4rem;
-  z-index: 20;
-  text-align: center;
-  pointer-events: none;
-  font-size: 1.25rem;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  text-transform: uppercase;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  z-index: 10;
 }
 
 /* Admin form header */
@@ -39,11 +33,14 @@
 }
 
 .property-card {
-  transition: transform 0.2s;
+  border-radius: .75rem;
+  overflow: hidden;
+  transition: transform .22s ease, box-shadow .22s ease;
 }
 
 .property-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px) scale(1.005);
+  box-shadow: 0 12px 30px rgba(13,38,59,0.12);
 }
 
 .card-title {
@@ -53,11 +50,37 @@
 }
 
 .price-tag {
-  color: #e74c3c;
-  font-weight: bold;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0d6efd;
 }
 
-/* Agar bisa tampilkan baris bari */
+/* Agar bisa tampilkan new line */
 .card-text {
   white-space: pre-wrap;
+}
+
+/* gradient overlay for images to improve readability */
+.carousel-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.28) 100%);
+  pointer-events: none;
+}
+
+/* small caption style */
+.carousel-item .caption {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  right: 12px;
+  color: #fff;
+  font-size: .85rem;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+}
+
+.btn:focus, .page-link:focus {
+  outline: 3px solid rgba(13,110,253,0.18);
+  outline-offset: 2px;
 }
