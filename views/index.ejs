@@ -42,7 +42,9 @@
               <select name="type" class="form-select">
                 <option value="">Semua Tipe</option>
                 <option value="house" <%= (filters && filters.type === 'house') ? 'selected' : '' %>>Rumah</option>
+                <option value="land" <%= (filters && filters.type === 'land') ? 'selected' : '' %>>Tanah</option>
                 <option value="car" <%= (filters && filters.type === 'car') ? 'selected' : '' %>>Mobil</option>
+                <option value="bicycle" <%= (filters && filters.type === 'bicycle') ? 'selected' : '' %>>Sepeda</option>
                 <option value="electro" <%= (filters && filters.type === 'electro') ? 'selected' : '' %>>Elektronik</option>
               </select>
             </div>
@@ -126,9 +128,19 @@
           <div class="card-body">
             <h5 class="card-title d-flex justify-content-between align-items-start">
               <%= item.title %>
-              <span class="badge bg-<%= item.type === 'house' ? 'primary' : item.type === 'car' ? 'success' : 'warning' %> ms-2">
-                <%= item.type === 'house' ? 'Rumah' : item.type === 'car' ? 'Mobil' : 'Elektronik' %>
-              </span>
+              <% 
+                const badgeClass = item.type === 'house' ? 'primary'
+                  : item.type === 'car' ? 'success'
+                  : item.type === 'land' ? 'info'
+                  : item.type === 'bicycle' ? 'secondary'
+                  : 'warning';
+                const badgeLabel = item.type === 'house' ? 'Rumah'
+                  : item.type === 'car' ? 'Mobil'
+                  : item.type === 'land' ? 'Tanah'
+                  : item.type === 'bicycle' ? 'Sepeda'
+                  : 'Elektronik';
+              %>
+              <span class="badge bg-<%= badgeClass %> ms-2"><%= badgeLabel %></span>
             </h5>
 
             <p class="price-tag mb-2">Rp <%= Number(item.price).toLocaleString('id-ID') %></p>

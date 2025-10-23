@@ -5,11 +5,13 @@ const path = require("path");
 const multer = require("multer"); // // Middleware untuk handle file upload
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const { CONNREFUSED } = require("dns");
 
 const app = express();
 
 // 🌐 Variabel global
 const PATH_PROXY = process.env.PATH_PROXY || "nano";
+const APP_TITLE = process.env.TITLE || "NANO Properti";
 const DATA_FILE = path.join(__dirname, "data", "listings.json");
 const UPLOAD_DIR = path.join(__dirname, "public", "uploads");
 
@@ -104,7 +106,7 @@ app.get(`/${PATH_PROXY}`, (req, res) => {
   const paginated = listings.slice((page - 1) * perPage, page * perPage);
 
   res.render("index", {
-    title: "NANO Properti",
+    title: APP_TITLE,
     activePage: "home",
     PATH_PROXY,
     listings: paginated,

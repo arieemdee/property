@@ -1,12 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
   <div class="container">
-    <a class="navbar-brand" href="/">🏠 Properti & Mobil</a>
+    <a class="navbar-brand" href="/">🏠 Properti</a>
     <form class="d-flex" role="search" method="get" action="/">
       <input class="form-control me-2" type="search" name="q" value="<%= q || '' %>" placeholder="Cari rumah / mobil...">
       <select class="form-select me-2" name="type">
         <option value="semua" <%= (type==='semua')?'selected':'' %>>Semua</option>
         <option value="rumah" <%= (type==='rumah')?'selected':'' %>>Rumah</option>
+        <option value="tanah" <%= (type==='tanah')?'selected':'' %>>Tanah</option>
         <option value="mobil" <%= (type==='mobil')?'selected':'' %>>Mobil</option>
+        <option value="sepeda" <%= (type==='sepeda')?'selected':'' %>>Sepeda</option>
         <option value="electro" <%= (type==='electro')?'selected':'' %>>Elektronik</option>
       </select>
       <button class="btn btn-outline-light" type="submit">Cari</button>

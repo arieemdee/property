@@ -32,7 +32,9 @@
               <select name="type" class="form-select" required>
                 <option value="">Pilih Tipe</option>
                 <option value="house" <%= property?.type === 'house' ? 'selected' : '' %>>Rumah</option>
+                <option value="land" <%= property?.type === 'house' ? 'selected' : '' %>>Tanah</option>
                 <option value="car" <%= property?.type === 'car' ? 'selected' : '' %>>Mobil</option>
+                <option value="bicycle" <%= property?.type === 'car' ? 'selected' : '' %>>Sepeda</option>
                 <option value="electro" <%= property?.type === 'electro' ? 'selected' : '' %>>Elektronik</option>
               </select>
             </div>
