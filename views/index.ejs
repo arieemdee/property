@@ -1,19 +1,28 @@
 <%- include('partials/header') %>
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css"
-/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
-<div class="container my-1">
-
-  <!-- Tombol buka modal filter (di beranda atas) -->
-  <div class="d-flex justify-content-end mb-3">
-    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#filterModal">
+<div class="container my-4">
+  <!-- Search and Filter Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="search-box flex-grow-1 me-3">
+      <form method="get" action="" class="input-group">
+        <input type="search" 
+              name="search" 
+              class="form-control" 
+              placeholder="Cari properti..." 
+              value="<%= (filters && filters.search) || '' %>"
+              aria-label="Search">
+        <button type="submit" class="btn btn-outline-primary">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
       <i class="bi bi-funnel"></i> Filter
     </button>
   </div>
-  
-  <!-- Modal Filter (letakkan di beranda, bukan di navbar/header) -->
+
+  <!-- Filter Modal -->
   <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -57,41 +66,40 @@
     </div>
   </div>
 
-  <!-- 🏡 Daftar Properti -->
-  <div class="row">
+  <!-- Property Listings -->
+  <div class="row g-4">
     <% if (!listings || listings.length === 0) { %>
-      <div class="col-12 text-center text-muted">
-        <p>Tidak ada properti yang cocok dengan filter.</p>
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-inbox display-1 text-muted"></i>
+        <p class="lead mt-3">Tidak ada properti yang cocok dengan filter.</p>
       </div>
     <% } %>
 
     <% (listings || []).forEach((item, i) => { %>
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm rounded-3 overflow-hidden property-card">
+      <div class="col-md-6 col-lg-4">
+        <div class="card property-card h-100 shadow-sm">
           <% if (item.sold) { %>
-            <div class="sold-overlay">
-              Sudah Terjual!
-            </div>
+            <div class="sold-overlay">Sudah Terjual!</div>
           <% } %>
           
-          <!-- Carousel Gambar + Video -->
+          <!-- Image Carousel -->
           <div id="carousel-<%= i %>" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <% (item.media || []).forEach((m, j) => { %>
-                <div class="carousel-item <%= j === 0 ? 'active' : '' %> text-center">
-
+                <div class="carousel-item <%= j === 0 ? 'active' : '' %>">
                   <% if (m.type === 'video') { %>
-                    <video class="d-block w-100 rounded" controls muted>
-                      <source src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" type="video/mp4" />
-                      Browser Anda tidak mendukung video tag.
+                    <video class="d-block w-100" style="height: 250px; object-fit: cover;" controls muted>
+                      <source src="/<%= PATH_PROXY %>/uploads/<%= m.src %>" type="video/mp4">
                     </video>
                   <% } else { %>
-                    <a href="/<%= PATH_PROXY %>/uploads/<%= m.src %>"
-                       class="glightbox"
-                       data-gallery="gallery-<%= i %>">
+                    <a href="/<%= PATH_PROXY %>/uploads/<%= m.src %>" 
+                       class="glightbox" 
+                       data-gallery="gallery-<%= i %>"
+                       data-title="<%= m.caption || item.title %>">
                       <img src="/<%= PATH_PROXY %>/uploads/<%= m.src %>"
-                           class="d-block w-100 rounded"
-                           alt="<%= item.title %>" />
+                           class="d-block w-100"
+                           style="height: 250px; object-fit: cover;"
+                           alt="<%= item.title %>">
                     </a>
                   <% } %>
 
@@ -103,75 +111,106 @@
                 </div>
               <% }) %>
             </div>
-
+            
             <% if ((item.media || []).length > 1) { %>
               <button class="carousel-control-prev" type="button" data-bs-target="#carousel-<%= i %>" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+                <span class="carousel-control-prev-icon"></span>
               </button>
               <button class="carousel-control-next" type="button" data-bs-target="#carousel-<%= i %>" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+                <span class="carousel-control-next-icon"></span>
               </button>
             <% } %>
           </div>
 
-          <!-- Info Properti -->
+          <!-- Property Info -->
           <div class="card-body">
-            <h5 class="card-title"><%= item.title %></h5>
-            <p class="card-text mb-1"><strong>Harga:</strong> Rp <%= Number(item.price).toLocaleString('id-ID') %></p>
-            <p class="card-text mb-1"><strong>Lokasi:</strong> <%= item.location %></p>
+            <h5 class="card-title d-flex justify-content-between align-items-start">
+              <%= item.title %>
+              <span class="badge bg-<%= item.type === 'house' ? 'primary' : item.type === 'car' ? 'success' : 'warning' %> ms-2">
+                <%= item.type === 'house' ? 'Rumah' : item.type === 'car' ? 'Mobil' : 'Elektronik' %>
+              </span>
+            </h5>
+
+            <p class="price-tag mb-2">Rp <%= Number(item.price).toLocaleString('id-ID') %></p>
+            
+            <div class="location mb-2">
+              <i class="bi bi-geo-alt text-muted"></i>
+              <span class="text-muted"><%= item.location %></span>
+            </div>
 
             <% if (item.description) { %>
-              <p class="card-text text-muted"><%= item.description %></p>
+              <p class="card-text text-muted small"><%= item.description %></p>
             <% } %>
 
-            <p class="card-text">
-              <strong>Kontak:</strong>
-              <a href="https://wa.me/<%= item.contact.replace(/\D/g, '') %>" target="_blank" class="text-success">
-                <i class="bi bi-whatsapp"></i> <%= item.contact %>
-              </a>
-            </p>
+            <!-- Nomor WhatsApp -->
+            <div class="mb-2">
+              <span class="text-success fw-semibold">
+                <i class="bi bi-whatsapp"></i>
+                <%= item.contact %>
+              </span>
+            </div>
+            <!-- Contact and Actions -->
+            <div class="mt-3">
+              <div class="d-flex gap-2">
+                <a href="https://wa.me/<%= item.contact.replace(/\D/g, '') %>" 
+                   class="btn btn-success btn-sm flex-grow-1" 
+                   target="_blank">
+                  <i class="bi bi-whatsapp"></i> WhatsApp
+                </a>
+                <button class="btn btn-outline-primary btn-sm">
+                  <i class="bi bi-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Info -->
+          <div class="card-footer bg-white text-muted small">
+            <i class="bi bi-clock"></i> Diposting: <%= new Date(item.createdAt).toLocaleDateString('id-ID', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            }) %>
           </div>
         </div>
       </div>
     <% }) %>
   </div>
+
+  <!-- Pagination -->
+  <% if (pagination && pagination.totalPages > 1) { %>
+    <nav>
+      <ul class="pagination justify-content-center mt-4">
+        <% if (pagination.currentPage > 1) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= pagination.currentPage - 1 %>">« Prev</a>
+          </li>
+        <% } else { %>
+          <li class="page-item disabled"><span class="page-link">« Prev</span></li>
+        <% } %>
+
+        <% for (let p = 1; p <= pagination.totalPages; p++) { %>
+          <li class="page-item <%= p === pagination.currentPage ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= p %>"><%= p %></a>
+          </li>
+        <% } %>
+
+        <% if (pagination.currentPage < pagination.totalPages) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= pagination.currentPage + 1 %>">Next »</a>
+          </li>
+        <% } else { %>
+          <li class="page-item disabled"><span class="page-link">Next »</span></li>
+        <% } %>
+      </ul>
+      <p class="text-center text-muted small">
+        Halaman <%= pagination.currentPage %> dari <%= pagination.totalPages %>
+      </p>
+    </nav>
+  <% } %>
 </div>
 
-<!-- 🔢 Pagination -->
-<% if (pagination && pagination.totalPages > 1) { %>
-  <nav>
-    <ul class="pagination justify-content-center mt-4">
-      <% if (pagination.currentPage > 1) { %>
-        <li class="page-item">
-          <a class="page-link" href="?page=<%= pagination.currentPage - 1 %>">« Prev</a>
-        </li>
-      <% } else { %>
-        <li class="page-item disabled"><span class="page-link">« Prev</span></li>
-      <% } %>
-
-      <% for (let p = 1; p <= pagination.totalPages; p++) { %>
-        <li class="page-item <%= p === pagination.currentPage ? 'active' : '' %>">
-          <a class="page-link" href="?page=<%= p %>"><%= p %></a>
-        </li>
-      <% } %>
-
-      <% if (pagination.currentPage < pagination.totalPages) { %>
-        <li class="page-item">
-          <a class="page-link" href="?page=<%= pagination.currentPage + 1 %>">Next »</a>
-        </li>
-      <% } else { %>
-        <li class="page-item disabled"><span class="page-link">Next »</span></li>
-      <% } %>
-    </ul>
-    <p class="text-center text-muted small">
-      Halaman <%= pagination.currentPage %> dari <%= pagination.totalPages %>
-    </p>
-  </nav>
-<% } %>
-
-<!-- JS GLightbox -->
+<!-- GLightbox Script -->
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {

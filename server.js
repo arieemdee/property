@@ -73,6 +73,16 @@ function requireLogin(req, res, next) {
 app.get(`/${PATH_PROXY}`, (req, res) => {
   const filters = req.query;
   let listings = readListings();
+  
+  // Ambil nilai search dari query
+  const search = filters.search;
+  // Filter berdasarkan pencarian
+  if (search) {
+    listings = listings.filter(item => 
+      item.title.toLowerCase().includes(search.toLowerCase()) ||
+      item.description.toLowerCase().includes(search.toLowerCase())
+    );
+  }
 
   // Filter lokasi
   if (filters.location)
@@ -217,6 +227,7 @@ app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (
       contact,
       description,
       sold: !!sold,
+      createdAt: new Date().toISOString(),
       media: (req.files || []).map((file, i) => ({
         type: file.mimetype.startsWith("video") ? "video" : "image",
         src: file.filename,

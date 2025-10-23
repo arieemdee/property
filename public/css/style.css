@@ -37,3 +37,22 @@
   font-weight: 700;
   letter-spacing: 0.5px;
 }
+
+.property-card {
+  transition: transform 0.2s;
+}
+
+.property-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.price-tag {
+  color: #e74c3c;
+  font-weight: bold;
+}
