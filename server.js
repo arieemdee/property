@@ -6,6 +6,7 @@ const multer = require("multer"); // // Middleware untuk handle file upload
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const { CONNREFUSED } = require("dns");
+const apiRouter = require('./routes/api');
 
 const app = express();
 
@@ -16,6 +17,8 @@ const DATA_FILE = path.join(__dirname, "data", "listings.json");
 const UPLOAD_DIR = path.join(__dirname, "public", "uploads");
 
 // 🧩 Middleware dasar
+app.use(`/${PATH_PROXY}/api`, apiRouter);
+//app.use(`/api`, apiRouter);
 app.use(`/${PATH_PROXY}`, express.static(path.join(__dirname, "public")));
 app.use(`/${PATH_PROXY}/uploads`, express.static(UPLOAD_DIR));
 app.use(bodyParser.urlencoded({ extended: true }));

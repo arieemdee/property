@@ -79,7 +79,7 @@
 
     <% (listings || []).forEach((item, i) => { %>
       <div class="col-md-6 col-lg-4">
-        <div class="card property-card h-100 shadow-sm">
+        <div class="card property-card h-100 shadow-sm" data-listing-id="<%= item.id %>">
           <% if (item.sold) { %>
             <div class="sold-overlay">Sudah Terjual!</div>
           <% } %>
@@ -177,12 +177,18 @@
           </div>
 
           <!-- Footer Info -->
-          <div class="card-footer bg-white text-muted small">
-            <i class="bi bi-clock"></i> Diposting: <%= new Date(item.createdAt).toLocaleDateString('id-ID', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }) %>
+          <div class="card-footer bg-white text-muted small d-flex justify-content-between align-items-center">
+            <div>
+              <i class="bi bi-clock"></i> Diposting: <%= new Date(item.createdAt).toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              }) %>
+            </div>
+            <div class="text-end" title="Jumlah kali dilihat">
+              <i class="bi bi-eye"></i>
+              <span class="views-count" data-id="<%= item.id %>"><%= item.views || 0 %></span>x
+            </div>
           </div>
         </div>
       </div>
