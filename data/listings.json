@@ -8,7 +8,7 @@
     "contact": "62816678886 - Arie",
     "description": "Rumah siap huni dengan luas tanah 500m², ada 3 kamar tidur, halaman luas, dan akses dekat jalan raya.",
     "createdAt": "2025-10-18T10:00:00.000Z",
-    "views": 260,
+    "views": 264,
     "sold": false,
     "media": [
       {
@@ -68,7 +68,7 @@
     "description": "Mobil Keluarga Elegan Nyaman\r\n\r\nMitsubishi Pajero SUV\r\nPajero (Panas Jobo Jero)",
     "sold": true,
     "createdAt": "2025-10-15T08:19:02.467Z",
-    "views": 157,
+    "views": 158,
     "media": [
       {
         "type": "image",
@@ -111,5 +111,54 @@
         "caption": ""
       }
     ]
+  },
+  {
+    "id": "1761274584202",
+    "title": "HP Siemen M55 & C55 (Jadul)",
+    "price": 50000,
+    "type": "electro",
+    "location": "Gadingan Sukoharjo https://maps.app.goo.gl/ujLXgjWjP1m9qx7MA",
+    "contact": "62816678886 (Arie)",
+    "description": "Ini Barang Langka Tapi masih bisa hidup, Akan tetapi sebagian tidak ada battery\r\n\r\nBekas server pulsa per item 50rb saja",
+    "sold": false,
+    "createdAt": "2025-10-24T02:56:24.202Z",
+    "media": [
+      {
+        "type": "image",
+        "src": "1761275010720-395169.jpg",
+        "caption": "HP Siemen M55"
+      },
+      {
+        "type": "image",
+        "src": "1761275010791-517322.webp",
+        "caption": "HP Siemen C55"
+      },
+      {
+        "type": "image",
+        "src": "1761275010874-328522.webp",
+        "caption": "C55 Siemen"
+      },
+      {
+        "type": "image",
+        "src": "1761275010965-968605.jpg",
+        "caption": "C55 & M55 Siemen"
+      },
+      {
+        "type": "image",
+        "src": "1761275010966-423375.jpg",
+        "caption": "M55 Siemen"
+      },
+      {
+        "type": "video",
+        "src": "1761274531038-449423.mp4",
+        "caption": "C55 Siemen"
+      },
+      {
+        "type": "video",
+        "src": "1761274563907-257692.mp4",
+        "caption": "M55 Siemen"
+      }
+    ],
+    "views": 4
   }
 ]
