@@ -145,10 +145,42 @@
     background-color: #0f172a;
     color: #e2e8f0;
   }
+
   .card {
-    background-color: #becce9;
+    background-color: #1e293b;
     border-color: #334155;
   }
+
   .card-title { color: #f8fafc; }
   .price-tag { color: #38bdf8; }
+
+  /* 🟢 Deskripsi tetap terang di dark mode */
+  .card-text,
+  .card-text.text-muted,
+  .card-text.small {
+    color: #e2e8f0 !important;
+  }
+
+  /* 🟢 Alamat dan ikon lokasi */
+  .location,
+  .location span,
+  .location i,
+  .location .text-muted {
+    color: #e2e8f0 !important;
+  }
+
+  /* 🟢 Link "Lihat di Google Maps" & "Lihat selengkapnya..." */
+  .toggle-desc,
+  .location a {
+    color: #60a5fa !important;
+    text-decoration: none;
+  }
+
+  .toggle-desc:hover,
+  .location a:hover {
+    color: #93c5fd !important;
+    text-decoration: underline;
+  }
 }
+
+
