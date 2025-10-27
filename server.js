@@ -234,18 +234,19 @@ app.get(`/${PATH_PROXY}/admin/form/:id?`, requireLogin, (req, res) => {
 // 💾 SIMPAN / UPDATE PROPERTI
 app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (req, res) => {
   const { id, title, price, type, location, contact, description } = req.body;
-  // Parse sold checkbox (on dari form) atau values lain jika dikirim via JS
   const sold = req.body.sold === "on" || req.body.sold === "true" || req.body.sold === "1";
   const captions = req.body.captions ? req.body.captions.split("\n") : [];
   let listings = readListings();
   let property;
 
-  if (id) {
-    // Edit mode
-    property = listings.find(l => l.id.toString() === id);
-    if (!property) return res.redirect(`/${PATH_PROXY}/admin`);
+  const isPriority = ["house", "land"].includes(type?.toLowerCase());
 
-    // Update properti
+  if (id) {
+    // Edit data
+    const idx = listings.findIndex(l => l.id.toString() === id);
+    if (idx === -1) return res.redirect(`/${PATH_PROXY}/admin`);
+    property = listings[idx];
+
     property.title = title;
     property.price = Number(price);
     property.type = type;
@@ -254,7 +255,6 @@ app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (
     property.description = description;
     property.sold = !!sold;
 
-    // Tambah media baru
     if (req.files?.length > 0) {
       const newMedia = req.files.map((file, i) => ({
         type: file.mimetype.startsWith("video") ? "video" : "image",
@@ -264,6 +264,17 @@ app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (
       property.media = property.media || [];
       property.media.push(...newMedia);
     }
+
+    // Hapus dulu dari posisi lama
+    listings.splice(idx, 1);
+
+    // Tambahkan ke posisi baru
+    if (isPriority) {
+      listings.unshift(property);
+    } else {
+      listings.push(property);
+    }
+
   } else {
     // Tambah baru
     property = {
@@ -282,11 +293,16 @@ app.post(`/${PATH_PROXY}/admin/save`, requireLogin, upload.array("media", 10), (
         caption: captions[i] || "",
       })),
     };
-    listings.push(property);
+
+    if (isPriority) {
+      listings.unshift(property);
+    } else {
+      listings.push(property);
+    }
   }
 
   writeListings(listings);
-  console.log("✅ Properti disimpan:", property.title);
+  console.log("✅ Properti disimpan:", property.title, "| Type:", property.type);
   res.redirect(`/${PATH_PROXY}/admin`);
 });
 
