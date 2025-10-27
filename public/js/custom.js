@@ -11,6 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Lihat Selengkapnya Toggle
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".toggle-desc").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const targetId = this.dataset.target;
+        const p = document.getElementById(targetId);
+        if (!p) return;
+
+        const expanded = p.classList.toggle("expanded");
+        if (expanded) {
+          p.style.maxHeight = "none";
+          p.style.overflow = "visible";
+          this.textContent = "Tutup deskripsi";
+        } else {
+          p.style.maxHeight = "60px";
+          p.style.overflow = "hidden";
+          this.textContent = "Lihat selengkapnya...";
+        }
+      });
+    });
+  });
+
 // View Count API Hit
 (function () {
   // gunakan PATH_PROXY yang disuntik di view, fallback 'nano'

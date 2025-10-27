@@ -182,7 +182,13 @@
 
 
             <% if (item.description) { %>
-              <p class="card-text text-muted small"><%= item.description %></p>
+              <p class="card-text text-muted small text-truncate" style="max-height: 60px; overflow: hidden; transition: all 0.3s ease; margin: 0; text-align: left;"
+                id="desc-<%= item.id %>"><%= item.description %></p>
+              <a href="#" 
+                class="small text-decoration-none toggle-desc" 
+                data-target="desc-<%= item.id %>">
+                Lihat selengkapnya...
+              </a><br>
             <% } %>
 
             <!-- Nomor WhatsApp -->
