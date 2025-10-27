@@ -1,6 +1,10 @@
-/* Custom styles */
+/* ======================================================
+   Custom Styles — Enhanced Elegant Edition
+   ====================================================== */
 
-/* Card listing & sold badge */
+/* -----------------------------------------
+   Listing Card & Sold Badge
+------------------------------------------ */
 .listing-card { 
   position: relative; 
   overflow: hidden;
@@ -11,20 +15,30 @@
   transform: translateY(-3px);
 }
 
+/* Sold ribbon */
 .sold-overlay {
   position: absolute;
   top: 12px;
   left: -50px;
   transform: rotate(-24deg);
-  background: linear-gradient(90deg,#dc3545,#b02a37);
+  background: linear-gradient(90deg, #dc3545, #b02a37);
   color: #fff;
   padding: .35rem 3.25rem;
   font-weight: 700;
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
   z-index: 10;
+  opacity: 0.95;
+  transition: all 0.25s ease-in-out;
 }
 
-/* Admin form header */
+.listing-card:hover .sold-overlay {
+  transform: rotate(-24deg) scale(1.05);
+  opacity: 1;
+}
+
+/* -----------------------------------------
+   Admin Form Header
+------------------------------------------ */
 .admin-form .card-header .mb-0,
 .card-header .mb-0 {
   font-size: 2rem;
@@ -32,6 +46,9 @@
   letter-spacing: 0.5px;
 }
 
+/* -----------------------------------------
+   Property Card
+------------------------------------------ */
 .property-card {
   border-radius: .75rem;
   overflow: hidden;
@@ -40,36 +57,43 @@
 
 .property-card:hover {
   transform: translateY(-6px) scale(1.005);
-  box-shadow: 0 12px 30px rgba(13,38,59,0.12);
+  box-shadow: 
+    0 12px 30px rgba(13,38,59,0.12),
+    0 0 12px rgba(13,110,253,0.06); /* subtle blue glow */
 }
 
+/* -----------------------------------------
+   Card Text & Title
+------------------------------------------ */
 .card-title {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: #1e293b; /* neutral modern tone */
 }
 
 .price-tag {
   font-size: 1.25rem;
   font-weight: 700;
   color: #0d6efd;
+  text-shadow: 0 1px 2px rgba(13,110,253,0.2);
 }
 
-/* Agar bisa tampilkan new line */
+/* Preserve line breaks in description */
 .card-text {
   white-space: pre-wrap;
 }
 
-/* gradient overlay for images to improve readability */
+/* -----------------------------------------
+   Carousel Overlay & Caption
+------------------------------------------ */
 .carousel-item::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.28) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.35) 100%);
   pointer-events: none;
 }
 
-/* small caption style */
 .carousel-item .caption {
   position: absolute;
   bottom: 8px;
@@ -80,7 +104,51 @@
   text-shadow: 0 2px 6px rgba(0,0,0,0.45);
 }
 
+/* -----------------------------------------
+   Buttons & Interaction
+------------------------------------------ */
+.btn {
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Focus states — soft glow */
+.btn:focus, 
+.page-link:focus, 
+.form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13,110,253,0.25);
+}
+
+/* Existing outline fallback */
 .btn:focus, .page-link:focus {
-  outline: 3px solid rgba(13,110,253,0.18);
   outline-offset: 2px;
+}
+
+/* -----------------------------------------
+   Global Smooth Transitions
+------------------------------------------ */
+* {
+  transition: color .15s ease, background-color .15s ease, 
+              box-shadow .15s ease, transform .15s ease;
+}
+
+/* -----------------------------------------
+   Optional Dark Mode Support
+------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+  }
+  .card {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+  .card-title { color: #f8fafc; }
+  .price-tag { color: #38bdf8; }
 }

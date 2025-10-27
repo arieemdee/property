@@ -8,7 +8,7 @@
     "contact": "62816678886 - Arie",
     "description": "Rumah siap huni dengan luas tanah 500m², ada 3 kamar tidur, halaman luas, dan akses dekat jalan raya.",
     "createdAt": "2025-10-18T10:00:00.000Z",
-    "views": 264,
+    "views": 266,
     "sold": false,
     "media": [
       {
@@ -117,7 +117,7 @@
     "title": "HP Siemen M55 & C55 (Jadul)",
     "price": 50000,
     "type": "electro",
-    "location": "Gadingan Sukoharjo https://maps.app.goo.gl/ujLXgjWjP1m9qx7MA",
+    "location": "Gadingan Sukoharjo Jateng",
     "contact": "62816678886 (Arie)",
     "description": "Ini Barang Langka Tapi masih bisa hidup, Akan tetapi sebagian tidak ada battery\r\n\r\nBekas server pulsa per item 50rb saja",
     "sold": false,
@@ -159,6 +159,50 @@
         "caption": "M55 Siemen"
       }
     ],
-    "views": 4
+    "views": 6
+  },
+  {
+    "id": "1761284973154",
+    "title": "Mesin Oskilasi Multi Cutter Oscillating 320W RYU RMT6 RMT 6",
+    "price": 600000,
+    "type": "electro",
+    "location": "Gadingan jombor bendosari SKH",
+    "contact": "62816678886 (Arie)",
+    "description": "RYU RMT6 MESIN MULTI OSKILASI OSCILATING CUTTER GRINDER TOOL SET RMT 6\r\nMesin Multi Cutter Oskilasi Ryu RMT6 dengan motor 320 Watt dan kecepatan tanpa beban maksimum 20.000 Rpm. Dapat melakukan berbagai pekerjaan mulai dari memotong, menggergaji, amplas, scraping. Tekiro Ryu RMT6 memiliki fitur variable speed memudahkan anda mengatur kecepatan untuk hasil pekerjaan yang lebih presisi.",
+    "sold": false,
+    "createdAt": "2025-10-24T05:49:33.154Z",
+    "media": [
+      {
+        "type": "image",
+        "src": "1761284972722-967946.webp",
+        "caption": "1\r"
+      },
+      {
+        "type": "image",
+        "src": "1761284972792-540899.jpeg",
+        "caption": "2\r"
+      },
+      {
+        "type": "image",
+        "src": "1761284972967-332037.jpeg",
+        "caption": "3\r"
+      },
+      {
+        "type": "image",
+        "src": "1761284973008-186543.jpeg",
+        "caption": "4\r"
+      },
+      {
+        "type": "image",
+        "src": "1761284973131-942460.jpg",
+        "caption": "5"
+      },
+      {
+        "type": "video",
+        "src": "1761285005073-593374.mp4",
+        "caption": "Demo Pemakaian"
+      }
+    ],
+    "views": 6
   }
 ]
