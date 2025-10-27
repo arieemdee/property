@@ -4,11 +4,11 @@
     "title": "Rumah Luas di Kemasan Polokarto",
     "price": 700000000,
     "location": "Kemasan, Polokarto, Sukoharjo",
-    "type": "house",
-    "contact": "62816678886 - Arie",
+    "type": "land",
+    "contact": "628562501188 - Arie",
     "description": "Rumah siap huni dengan luas tanah 500m², ada 3 kamar tidur, halaman luas, dan akses dekat jalan raya.",
     "createdAt": "2025-10-18T10:00:00.000Z",
-    "views": 269,
+    "views": 270,
     "sold": false,
     "media": [
       {
@@ -62,9 +62,9 @@
     "id": "1761207542467",
     "title": "Mobil Pajero",
     "price": 350000000,
-    "type": "car",
+    "type": "bicycle",
     "location": "Sukoharjo",
-    "contact": "62816678886 - Arie",
+    "contact": "628562501188 - Arie",
     "description": "Mobil Keluarga Elegan Nyaman\r\n\r\nMitsubishi Pajero SUV\r\nPajero (Panas Jobo Jero)",
     "sold": true,
     "createdAt": "2025-10-15T08:19:02.467Z",
@@ -118,8 +118,8 @@
     "price": 50000,
     "type": "electro",
     "location": "Gadingan Sukoharjo Jateng",
-    "contact": "62816678886 (Arie)",
-    "description": "Ini Barang Langka Tapi masih bisa hidup, Akan tetapi sebagian tidak ada battery\r\n\r\nBekas server pulsa per item 50rb saja",
+    "contact": "628562501188 - Arie",
+    "description": "Ini Barang Langka Tapi masih bisa hidup, Akan tetapi sebagian tidak ada battery\r\n\r\nBekas server pulsa per item 50rb saja\r\n\r\ncontoh pemakaian ada di https://md-engine.com",
     "sold": false,
     "createdAt": "2025-10-24T02:56:24.202Z",
     "media": [
@@ -167,8 +167,8 @@
     "price": 600000,
     "type": "electro",
     "location": "Gadingan jombor bendosari SKH",
-    "contact": "62816678886 (Arie)",
-    "description": "RYU RMT6 MESIN MULTI OSKILASI OSCILATING CUTTER GRINDER TOOL SET RMT 6\r\nMesin Multi Cutter Oskilasi Ryu RMT6 dengan motor 320 Watt dan kecepatan tanpa beban maksimum 20.000 Rpm. Dapat melakukan berbagai pekerjaan mulai dari memotong, menggergaji, amplas, scraping. Tekiro Ryu RMT6 memiliki fitur variable speed memudahkan anda mengatur kecepatan untuk hasil pekerjaan yang lebih presisi.",
+    "contact": "628562501188 - Arie",
+    "description": "RYU RMT6 MESIN MULTI OSKILASI OSCILATING CUTTER GRINDER TOOL SET RMT 6\r\n\r\nMesin Multi Cutter Oskilasi Ryu RMT6 dengan motor 320 Watt dan kecepatan tanpa beban maksimum 20.000 Rpm. \r\n\r\nDapat melakukan berbagai pekerjaan mulai dari memotong, menggergaji, amplas, scraping. \r\n\r\nTekiro Ryu RMT6 memiliki fitur variable speed memudahkan anda mengatur kecepatan untuk hasil pekerjaan yang lebih presisi.",
     "sold": false,
     "createdAt": "2025-10-24T05:49:33.154Z",
     "media": [
@@ -203,6 +203,6 @@
         "caption": "Demo Pemakaian"
       }
     ],
-    "views": 6
+    "views": 8
   }
 ]

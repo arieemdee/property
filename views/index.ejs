@@ -180,10 +180,27 @@
               <% } %>
             </div>
 
-
+            <!-- Description -->
             <% if (item.description) { %>
+              <% 
+                const linkify = (text) => {
+                  if (!text) return '';
+                  text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                  const urlRegex = /\b((https?:\/\/)|(www\.))([^\s<]+)/gi;
+
+                  return text.replace(urlRegex, (match) => {
+                    let url = match;
+                    if (!/^https?:\/\//i.test(url)) {
+                      url = 'https://' + url; // tambahkan https:// jika belum ada
+                    }
+                    return `<a href="${url}" target="_blank" style="color:#007bff; text-decoration:underline;">${match}</a>`;
+                  });
+                };
+
+                const descId = `desc-${item.id}`;
+              %>
               <p class="card-text text-muted small text-truncate" style="max-height: 60px; overflow: hidden; transition: all 0.3s ease; margin: 0; text-align: left;"
-                id="desc-<%= item.id %>"><%= item.description %></p>
+                id="<%= descId %>"><%- linkify(item.description) %></p>
               <a href="#" 
                 class="small text-decoration-none toggle-desc" 
                 data-target="desc-<%= item.id %>">
