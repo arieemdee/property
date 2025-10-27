@@ -4,7 +4,7 @@
     "title": "Rumah Luas di Kemasan Polokarto",
     "price": 700000000,
     "location": "Kemasan, Polokarto, Sukoharjo",
-    "type": "land",
+    "type": "house",
     "contact": "628562501188 - Arie",
     "description": "Rumah siap huni dengan luas tanah 500m², ada 3 kamar tidur, halaman luas, dan akses dekat jalan raya.",
     "createdAt": "2025-10-18T10:00:00.000Z",
@@ -59,10 +59,48 @@
     ]
   },
   {
+    "id": "1761571859111",
+    "title": "Hunian Nyaman Colomadu",
+    "price": 450000000,
+    "type": "house",
+    "location": "Colomadu Solo",
+    "contact": "628562501188 - Arie",
+    "description": "📍 Lokasi strategis banget, belakang RSAU!\r\n\r\nHarga mulai 400 jutaan aja\r\nTipe 40/72 – cocok buat kamu yang cari rumah pertama atau investasi 🔑\r\n\r\nSpesifikasi:\r\n🏠 2 Kamar Tidur\r\n🚿 1 Kamar Mandi\r\n🛋️ Ruang Tamu\r\n🚗 Garasi Mobil\r\n\r\n🔥 Sisa 3 unit terakhir!\r\nLangsung pesan bangun sekarang sebelum kehabisan!\r\n",
+    "sold": false,
+    "createdAt": "2025-10-27T13:30:59.111Z",
+    "media": [
+      {
+        "type": "image",
+        "src": "1761571858986-816415.jpg",
+        "caption": ""
+      }
+    ],
+    "views": 3
+  },
+  {
+    "id": "1761572121964",
+    "title": "Lembah Manah Klodran",
+    "price": 800000000,
+    "type": "house",
+    "location": "Klodran Colomadu",
+    "contact": "628562501188 - Arie",
+    "description": "Dipasarkan Perumahan Cluster 2 lantai modern minimalis area Klodran Colomadu. \r\nLokasi sangat strategis, hanya 1 menit barat exit tol Klodran.\r\n\r\nTersedia 19 Unit, 2 Hadap.▪️\r\n✅Type 80/89 m²▪️\r\n✅Type 80/97 m²▪️\r\n✅Type 80/100 m²▪️\r\n✅Type 100/100 m²▪️\r\n✅Type 100/115 m²\r\n\r\nFasilitas :\r\n🔹️Main Gate\r\n🔹️Pos Security\r\n🔹️Jalan Lebar 6 meter\r\n🔹️Lahan Putaran Jalan\r\n🔹️Playground Anak²\r\n🔹️Taman Outdoor\r\n🔹️Listrik Bawah Tanah\r\n\r\nSkema Pembayaran :\r\nCash / Cash Tempo / KPR\r\n\r\nPromo 3 Unit pertama Free Kitchen Set, Free Kanopi, Free Pajak dan Balik Nama.\r\n\r\nSegera Hubungi dan survey ke lokasi",
+    "sold": false,
+    "createdAt": "2025-10-27T13:35:21.964Z",
+    "media": [
+      {
+        "type": "image",
+        "src": "1761572117270-446351.jpg",
+        "caption": ""
+      }
+    ],
+    "views": 1
+  },
+  {
     "id": "1761207542467",
     "title": "Mobil Pajero",
     "price": 350000000,
-    "type": "bicycle",
+    "type": "car",
     "location": "Sukoharjo",
     "contact": "628562501188 - Arie",
     "description": "Mobil Keluarga Elegan Nyaman\r\n\r\nMitsubishi Pajero SUV\r\nPajero (Panas Jobo Jero)",
