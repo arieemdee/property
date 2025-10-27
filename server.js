@@ -7,13 +7,14 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const { CONNREFUSED } = require("dns");
 const apiRouter = require('./routes/api');
+const { readListings, writeListings } = require('./helpers/listings');
 
 const app = express();
 
 // 🌐 Variabel global
 const PATH_PROXY = process.env.PATH_PROXY || "nano";
 const APP_TITLE = process.env.TITLE || "NANO Properti";
-const DATA_FILE = path.join(__dirname, "data", "listings.json");
+//const DATA_FILE = path.join(__dirname, "data", "listings.json");
 const UPLOAD_DIR = path.join(__dirname, "public", "uploads");
 
 // 🧩 Middleware dasar
@@ -40,23 +41,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // 📁 Pastikan folder penting ada
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]");
-
-// 📚 Fungsi bantu
-function readListings() {
-  try {
-    const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-    // Pastikan field `sold` selalu ada (boolean) untuk kompatibilitas data lama
-    return Array.isArray(data)
-      ? data.map((item) => ({ ...item, sold: !!item.sold }))
-      : [];
-  } catch {
-    return [];
-  }
-}
-function writeListings(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-}
+//if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]");
 
 // 🧩 Konfigurasi upload file
 const storage = multer.diskStorage({
