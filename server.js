@@ -2,10 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const multer = require("multer"); // // Middleware untuk handle file upload
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const { CONNREFUSED } = require("dns");
 
 //helpers
 const apiRouter = require('./routes/api');
