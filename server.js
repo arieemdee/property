@@ -8,14 +8,13 @@ const session = require("express-session");
 const { CONNREFUSED } = require("dns");
 const apiRouter = require('./routes/api');
 const { readListings, writeListings } = require('./helpers/listings');
+const { upload, UPLOAD_DIR } = require('./helpers/upload');
 
 const app = express();
 
 // 🌐 Variabel global
 const PATH_PROXY = process.env.PATH_PROXY || "nano";
 const APP_TITLE = process.env.TITLE || "NANO Properti";
-//const DATA_FILE = path.join(__dirname, "data", "listings.json");
-const UPLOAD_DIR = path.join(__dirname, "public", "uploads");
 
 // 🧩 Middleware dasar
 app.use(`/${PATH_PROXY}/api`, apiRouter);
@@ -38,20 +37,6 @@ app.use(
 // ⚙️ View engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-// 📁 Pastikan folder penting ada
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-//if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]");
-
-// 🧩 Konfigurasi upload file
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, UPLOAD_DIR),
-  filename: (req, file, cb) => {
-    const unique = Date.now() + "-" + Math.round(Math.random() * 1e6);
-    cb(null, unique + path.extname(file.originalname));
-  },
-});
-const upload = multer({ storage });
 
 // Middleware untuk proteksi admin
 function requireLogin(req, res, next) {
@@ -99,7 +84,6 @@ function linkify(text) {
 
 // Optional: buat helper global untuk semua EJS tanpa perlu kirim setiap res.render
 // app.locals.linkify = linkify;
-
 
 // 🏠 HALAMAN UTAMA
 app.get(`/${PATH_PROXY}`, (req, res) => {
