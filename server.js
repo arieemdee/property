@@ -289,3 +289,19 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server berjalan di http://localhost:${PORT}/${PATH_PROXY}`);
 });
+
+app.on('error', err => {
+  console.error(`❌ Server failed to start: ${err.message}`);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`⚠️ Port ${port} is already in use. Please use a different port.`);
+  }
+  process.exit(1);
+});
+
+// Error Handlers
+process.on('uncaughtException', err => {
+  console.error('Uncaught Exception:', err);
+});
+process.on('unhandledRejection', reason => {
+  console.error('Unhandled Rejection:', reason);
+});
