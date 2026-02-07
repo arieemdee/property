@@ -85,7 +85,7 @@
           <% } %>
           
           <!-- Image Carousel -->
-          <div id="carousel-<%= i %>" class="carousel slide" data-bs-ride="carousel">
+          <div id="carousel-<%= i %>" class="carousel slide" data-bs-ride="false">
             <div class="carousel-inner">
               <% (item.media || []).forEach((m, j) => { %>
                 <div class="carousel-item <%= j === 0 ? 'active' : '' %>">
