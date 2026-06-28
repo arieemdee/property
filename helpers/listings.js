@@ -2,12 +2,47 @@
 const fs = require("fs");
 const path = require("path");
 
-const DATA_FILE = path.join(__dirname, "..", "data", "listings.json");
+const isPkg = typeof process.pkg !== "undefined";
+
+// When packaged with `pkg`, files inside the snapshot are read-only.
+// Use an external writable `data` directory next to the executable instead.
+const externalBase = isPkg ? path.join(path.dirname(process.execPath), "data") : path.join(__dirname, "..", "data");
+const DATA_FILE = path.join(externalBase, "listings.json");
 
 let cacheListings = null;
 let cacheTimestamp = 0;
 
-if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]");
+// Ensure the external data directory exists
+try {
+  if (!fs.existsSync(externalBase)) fs.mkdirSync(externalBase, { recursive: true });
+} catch (err) {
+  console.error("❌ Error creating data directory:", err);
+}
+
+// If running from a pkg snapshot, copy the bundled data file out to the external location
+if (isPkg) {
+  const bundledFile = path.join(__dirname, "..", "data", "listings.json");
+  try {
+    if (!fs.existsSync(DATA_FILE)) {
+      let content = "[]";
+      try {
+        content = fs.readFileSync(bundledFile, "utf8");
+      } catch (e) {
+        // fallback to empty array
+      }
+      fs.writeFileSync(DATA_FILE, content);
+    }
+  } catch (err) {
+    console.error("❌ Error initializing external data file:", err);
+  }
+} else {
+  // non-packaged: ensure file exists
+  try {
+    if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]");
+  } catch (err) {
+    console.error("❌ Error creating data file:", err);
+  }
+}
 
 function readListings() {
   try {
@@ -19,9 +54,7 @@ function readListings() {
     }
 
     const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-    cacheListings = Array.isArray(data)
-      ? data.map((item) => ({ ...item, sold: !!item.sold }))
-      : [];
+    cacheListings = Array.isArray(data) ? data.map((item) => ({ ...item, sold: !!item.sold })) : [];
     cacheTimestamp = fileModified;
 
     return cacheListings;
